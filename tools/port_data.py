@@ -10,7 +10,8 @@ newer workspace's common/src/{main,generated}/resources and rewrites the data in
     python3 tools/port_data.py 26.3       # one target
     python3 tools/port_data.py --check    # fail if a committed target differs from a fresh conversion (CI)
 
-Standard library only. Each target's pack.mcmeta is hand-written in its common/src/main/resources and kept.
+Standard library only. Each target's pack.mcmeta (and, on 26.x, META-INF/accesstransformer.cfg) is hand-written in its
+common/src/main/resources and kept.
 
 1.21.1
 - data folders renamed (recipe/, loot_table/, advancement/, structure/, tags/item, tags/block, ...);
@@ -20,7 +21,8 @@ Standard library only. Each target's pack.mcmeta is hand-written in its common/s
 - loot: match_tool's enchantment list is a minecraft:enchantments item sub-predicate; looting_enchant became
   enchanted_count_increase; minecraft:grass is minecraft:short_grass;
 - worldgen int providers lost their "value" wrapper;
-- block models: Forge's per-element "forge_data" (full-bright faces) is NeoForge's "neoforge_data".
+- block models: Forge's per-element "forge_data" (full-bright faces) is NeoForge's "neoforge_data";
+- NeoForge reads composting chances from the neoforge:compostables data map (written here, also for 26.2).
 26.2 (and 26.3)
 - recipe ingredients are an item id, a "#tag" or a list of those;
 - advancement backgrounds name a texture without "textures/" and ".png";
@@ -32,7 +34,9 @@ Standard library only. Each target's pack.mcmeta is hand-written in its common/s
 - every item needs an item model definition (assets/<ns>/items/<id>.json); spawn eggs use a two-layer
   egg texture tinted with their colours (the vanilla template_spawn_egg model is gone);
 - block models: "render_type" is gone (the texture's alpha decides) and full-bright faces use the element's
-  vanilla "light_emission".
+  vanilla "light_emission";
+- the flower crown is drawn from assets/<ns>/equipment/flower_crown.json (texture under
+  textures/entity/equipment/humanoid/); each wood has its own boat and chest boat entity types (lang names added).
 26.3 only
 - loot conditions and functions are keyed by "type"; a "condition" field holds one condition (several are wrapped
   in minecraft:all_of), "functions" became "modifier", rolls and counts are integer providers, and
@@ -253,6 +257,27 @@ def port_121(tree: Path) -> None:
                 dump(path, model_121(body))
 
 
+# Composting chances, as CommonSetup.registerCompostables puts them into the composter's table (1.20.1 Forge, Fabric).
+# NeoForge 1.21.1 and 26.2 read them from the neoforge:compostables data map instead; 26.3 keeps them on the items.
+COMPOSTABLES = {
+    **{name: 0.3 for name in (
+        "pink_flower_carpet", "lavender_flower_carpet", "cream_flower_carpet", "mint_flower_carpet", "blue_flower_carpet",
+        "blossom_leaves", "snow_blossom_leaves", "moonwood_leaves", "blossom_sapling", "snow_blossom_sapling",
+        "moonwood_sapling", "blush_grass", "moonlit_grass", "blossom_petals", "snow_blossom_petals", "strawberry",
+        "starbloom_seeds", "moon_petal")},
+    **{name: 0.65 for name in (
+        "rosy_daisy", "lavender", "cream_buttercup", "mint_posy", "starflower", "bluebell", "moonflower", "crystal_flower",
+        "tall_lavender", "fairy_foxglove", "fairy_mushroom", "glowcap", "pink_hydrangea", "blue_hydrangea",
+        "lavender_hydrangea", "glimmer_lily", "moonbell")},
+    **{name: 0.85 for name in ("fairy_mushroom_block", "glowcap_block", "lavender_bale", "strawberry_shortcake")},
+}
+
+
+def compostables_data_map(generated: Path) -> None:
+    dump(generated / "data" / "neoforge" / "data_maps" / "item" / "compostables.json",
+         {"values": {f"{M}:{name}": {"chance": chance} for name, chance in sorted(COMPOSTABLES.items())}})
+
+
 # =========================================================================== 26.2
 
 def ingredient_26(value):
@@ -469,6 +494,30 @@ def port_26(main: Path, generated: Path, v263: bool) -> None:
     for name in ("spawn_egg.png", "spawn_egg_overlay.png"):
         shutil.copyfile(ASSETS_EXTRA / name, textures / name)
     item_definitions(main, generated)
+    equipment_and_boats_26(main, generated)
+
+
+WOODS = ("blossom", "moonwood")
+
+
+def equipment_and_boats_26(main: Path, generated: Path) -> None:
+    """The flower crown is drawn from an equipment asset; each wood has its own boat entity types."""
+    assets = main / "assets" / M
+    armor = assets / "textures" / "models" / "armor"
+    humanoid = assets / "textures" / "entity" / "equipment" / "humanoid"
+    humanoid.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(armor / "flower_crown_layer_1.png"), humanoid / "flower_crown.png")
+    shutil.rmtree(assets / "textures" / "models")
+    dump(generated / "assets" / M / "equipment" / "flower_crown.json",
+         {"layers": {"humanoid": [{"texture": f"{M}:flower_crown"}]}})
+    lang_path = generated / "assets" / M / "lang" / "en_us.json"
+    lang = load(lang_path)
+    lang.pop(f"entity.{M}.boat", None)
+    lang.pop(f"entity.{M}.chest_boat", None)
+    for wood in WOODS:
+        for kind in ("boat", "chest_boat"):
+            lang[f"entity.{M}.{wood}_{kind}"] = lang[f"item.{M}.{wood}_{kind}"]
+    dump(lang_path, dict(sorted(lang.items())))
 
 
 # =========================================================================== 26.3
@@ -635,9 +684,11 @@ def convert(version: str, out_root: Path) -> None:
     main, generated = out_root / "main", out_root / "generated"
     for name, src, dst in (("main", SOURCE / "main" / "resources", main),
                            ("generated", SOURCE / "generated" / "resources", generated)):
-        shutil.copytree(src, dst, ignore=shutil.ignore_patterns(".cache", "pack.mcmeta"))
+        shutil.copytree(src, dst, ignore=shutil.ignore_patterns(".cache", "pack.mcmeta", "META-INF"))
     port_121(main)
     port_121(generated)
+    if version in ("1.21.1", "26.2"):
+        compostables_data_map(generated)
     if version.startswith("26."):
         port_26(main, generated, version == "26.3")
     if version == "26.3":
@@ -649,21 +700,25 @@ def target_dirs(version: str):
     return common / "main" / "resources", common / "generated" / "resources"
 
 
+# Hand-written files in each target's common/src/main/resources that the conversion keeps as they are.
+HAND_WRITTEN = ("pack.mcmeta", "META-INF/accesstransformer.cfg")
+
+
 def write(version: str) -> None:
     main_dst, generated_dst = target_dirs(version)
-    pack = main_dst / "pack.mcmeta"
-    pack_text = pack.read_text(encoding="utf-8") if pack.exists() else None
+    kept = {name: (main_dst / name).read_bytes() for name in HAND_WRITTEN if (main_dst / name).exists()}
     with tempfile.TemporaryDirectory() as tmp:
         convert(version, Path(tmp))
         for sub, dst in (("main", main_dst), ("generated", generated_dst)):
             shutil.rmtree(dst, ignore_errors=True)
             shutil.copytree(Path(tmp) / sub, dst)
-    if pack_text is not None:
-        pack.write_text(pack_text, encoding="utf-8")
+    for name, body in kept.items():
+        (main_dst / name).parent.mkdir(parents=True, exist_ok=True)
+        (main_dst / name).write_bytes(body)
     print(f"ported resources to {version}/common/src/{{main,generated}}/resources")
 
 
-def diff_trees(a: Path, b: Path, ignore=("pack.mcmeta",)) -> list[str]:
+def diff_trees(a: Path, b: Path, ignore=("pack.mcmeta", "META-INF")) -> list[str]:
     problems = []
     cmp = filecmp.dircmp(a, b, ignore=list(ignore))
 

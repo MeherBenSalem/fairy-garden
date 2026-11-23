@@ -1,0 +1,121 @@
+{
+  "values": {
+    "fairygarden:blossom_leaves": {
+      "chance": 0.3
+    },
+    "fairygarden:blossom_petals": {
+      "chance": 0.3
+    },
+    "fairygarden:blossom_sapling": {
+      "chance": 0.3
+    },
+    "fairygarden:blue_flower_carpet": {
+      "chance": 0.3
+    },
+    "fairygarden:blue_hydrangea": {
+      "chance": 0.65
+    },
+    "fairygarden:bluebell": {
+      "chance": 0.65
+    },
+    "fairygarden:blush_grass": {
+      "chance": 0.3
+    },
+    "fairygarden:cream_buttercup": {
+      "chance": 0.65
+    },
+    "fairygarden:cream_flower_carpet": {
+      "chance": 0.3
+    },
+    "fairygarden:crystal_flower": {
+      "chance": 0.65
+    },
+    "fairygarden:fairy_foxglove": {
+      "chance": 0.65
+    },
+    "fairygarden:fairy_mushroom": {
+      "chance": 0.65
+    },
+    "fairygarden:fairy_mushroom_block": {
+      "chance": 0.85
+    },
+    "fairygarden:glimmer_lily": {
+      "chance": 0.65
+    },
+    "fairygarden:glowcap": {
+      "chance": 0.65
+    },
+    "fairygarden:glowcap_block": {
+      "chance": 0.85
+    },
+    "fairygarden:lavender": {
+      "chance": 0.65
+    },
+    "fairygarden:lavender_bale": {
+      "chance": 0.85
+    },
+    "fairygarden:lavender_flower_carpet": {
+      "chance": 0.3
+    },
+    "fairygarden:lavender_hydrangea": {
+      "chance": 0.65
+    },
+    "fairygarden:mint_flower_carpet": {
+      "chance": 0.3
+    },
+    "fairygarden:mint_posy": {
+      "chance": 0.65
+    },
+    "fairygarden:moon_petal": {
+      "chance": 0.3
+    },
+    "fairygarden:moonbell": {
+      "chance": 0.65
+    },
+    "fairygarden:moonflower": {
+      "chance": 0.65
+    },
+    "fairygarden:moonlit_grass": {
+      "chance": 0.3
+    },
+    "fairygarden:moonwood_leaves": {
+      "chance": 0.3
+    },
+    "fairygarden:moonwood_sapling": {
+      "chance": 0.3
+    },
+    "fairygarden:pink_flower_carpet": {
+      "chance": 0.3
+    },
+    "fairygarden:pink_hydrangea": {
+      "chance": 0.65
+    },
+    "fairygarden:rosy_daisy": {
+      "chance": 0.65
+    },
+    "fairygarden:snow_blossom_leaves": {
+      "chance": 0.3
+    },
+    "fairygarden:snow_blossom_petals": {
+      "chance": 0.3
+    },
+    "fairygarden:snow_blossom_sapling": {
+      "chance": 0.3
+    },
+    "fairygarden:starbloom_seeds": {
+      "chance": 0.3
+    },
+    "fairygarden:starflower": {
+      "chance": 0.65
+    },
+    "fairygarden:strawberry": {
+      "chance": 0.3
+    },
+    "fairygarden:strawberry_shortcake": {
+      "chance": 0.85
+    },
+    "fairygarden:tall_lavender": {
+      "chance": 0.65
+    }
+  }
+}

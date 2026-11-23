@@ -1,5 +1,7 @@
 package com.sugarplumstudios.fairygarden.block;
 
+import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.Blocks;
 import com.sugarplumstudios.fairygarden.registry.ModItems;
 import com.sugarplumstudios.fairygarden.registry.ModParticles;
 import net.minecraft.core.BlockPos;
@@ -71,7 +73,7 @@ public class StarbloomCropBlock extends CropBlock {
         if (!level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)) || isMaxAge(state) || !canGrowNow(level, pos)) {
             return;
         }
-        float speed = getGrowthSpeed(this, level, pos);
+        float speed = growthSpeed(this, level, pos);
         int chance = (int) (25.0F / speed) + 1;
         if (level.getMoonPhase() == 0) {
             chance = chance / 2 + 1;
@@ -80,6 +82,41 @@ public class StarbloomCropBlock extends CropBlock {
             level.setBlock(pos, getStateForAge(getAge(state) + 1), Block.UPDATE_CLIENTS);
             Services.PLATFORM.cropGrowPost(level, pos, state);
         }
+    }
+
+    /**
+     * Vanilla's crop growth speed (wet farmland around speeds it up, crowded rows slow it down). A copy, because
+     * NeoForge changes the signature of CropBlock#getGrowthSpeed.
+     */
+    private static float growthSpeed(Block block, BlockGetter level, BlockPos pos) {
+        float speed = 1.0F;
+        BlockPos below = pos.below();
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                float bonus = 0.0F;
+                BlockState soil = level.getBlockState(below.offset(dx, 0, dz));
+                if (soil.is(Blocks.FARMLAND)) {
+                    bonus = soil.getValue(FarmBlock.MOISTURE) > 0 ? 3.0F : 1.0F;
+                }
+                if (dx != 0 || dz != 0) {
+                    bonus /= 4.0F;
+                }
+                speed += bonus;
+            }
+        }
+        BlockPos north = pos.north();
+        BlockPos south = pos.south();
+        BlockPos west = pos.west();
+        BlockPos east = pos.east();
+        boolean rowX = level.getBlockState(west).is(block) || level.getBlockState(east).is(block);
+        boolean rowZ = level.getBlockState(north).is(block) || level.getBlockState(south).is(block);
+        if (rowX && rowZ) {
+            speed /= 2.0F;
+        } else if (level.getBlockState(west.north()).is(block) || level.getBlockState(east.north()).is(block)
+                || level.getBlockState(east.south()).is(block) || level.getBlockState(west.south()).is(block)) {
+            speed /= 2.0F;
+        }
+        return speed;
     }
 
     @Override

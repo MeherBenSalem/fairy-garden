@@ -27,6 +27,11 @@ neoForge {
     }
 }
 
+dependencies {
+    // TerraBlender places the biomes in the Overworld (required at runtime too).
+    implementation "com.github.glitchfiend:TerraBlender-neoforge:${terrablender_neoforge_version}"
+}
+
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
 ['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
