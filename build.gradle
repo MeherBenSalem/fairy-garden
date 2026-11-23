@@ -8,7 +8,7 @@ version = mod_version
 group = mod_group_id
 
 base {
-    archivesName = "${mod_id}-${minecraft_version}"
+    archivesName = "${mod_id}-forge-${minecraft_version}"
 }
 
 // Minecraft 1.20.1 ships Java 17 to players, so the mod targets Java 17.
@@ -68,6 +68,16 @@ minecraft {
             parent runs.client
             taskName 'runSnapshots'
             property 'fairygarden.devshots', 'true'
+            // gradlew runSnapshots -PshotSize=1920x1080 opens the window at that size, so the screenshots are that size
+            if (project.hasProperty('shotSize')) {
+                def (w, h) = project.property('shotSize').toString().tokenize('x')
+                args '--width', w, '--height', h
+            }
+        }
+
+        // Runs the mod's GameTests headlessly, then exits (non-zero on failure).   gradlew runGameTestServer
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
         }
 
         data {

@@ -182,7 +182,7 @@ the server; particles, ambient sounds and rendering are client-side only.
 python tools/generate_textures.py         # paints every texture into src/main/resources
 java tools/audiogen/AudioGenerator.java build/audio --ogg src/main/resources/assets/fairygarden/sounds   # synthesizes every sound (needs ffmpeg)
 gradlew runData                            # models, blockstates, lang, loot, recipes, tags, worldgen, structures
-gradlew build                              # -> build/libs/fairygarden-1.20.1-1.0.0.jar
+gradlew build                              # -> build/libs/fairygarden-forge-1.20.1-1.0.0.jar
 ```
 `gradlew runWorldgenTest` starts a headless server on a fresh world (`run/saves/selftest`, seed
 `fairygarden`), finds every Fairy Garden biome and structure, generates the chunks there, counts the Fairy
