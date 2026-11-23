@@ -1,0 +1,173 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "bluebell": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:bluebell"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "cream_buttercup": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:cream_buttercup"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "crystal_flower": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:crystal_flower"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "fairy_foxglove": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:fairy_foxglove"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "lavender": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:lavender"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "mint_posy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:mint_posy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "moonflower": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:moonflower"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "rosy_daisy": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:rosy_daisy"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "starflower": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:starflower"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "tall_lavender": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:tall_lavender"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.fairygarden.flower_collector.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "fairygarden:rosy_daisy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.flower_collector.title"
+    }
+  },
+  "requirements": [
+    [
+      "rosy_daisy"
+    ],
+    [
+      "lavender"
+    ],
+    [
+      "cream_buttercup"
+    ],
+    [
+      "mint_posy"
+    ],
+    [
+      "starflower"
+    ],
+    [
+      "bluebell"
+    ],
+    [
+      "moonflower"
+    ],
+    [
+      "crystal_flower"
+    ],
+    [
+      "tall_lavender"
+    ],
+    [
+      "fairy_foxglove"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "fairygarden:block/stripped_moonwood_log",
+    "side": "fairygarden:block/stripped_moonwood_log"
+  }
+}

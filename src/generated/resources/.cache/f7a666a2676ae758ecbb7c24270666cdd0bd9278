@@ -1,0 +1,21 @@
+// 1.20.1	2026-11-03T17:40:42.0745407	Tags for minecraft:worldgen/biome mod id fairygarden
+bab6f43ed7442e2871fcdcedacb31859db54a900 data/fairygarden/tags/worldgen/biome/fairy_garden_biomes.json
+a73c5134a9dd163083b3537a6255688048d8acd0 data/fairygarden/tags/worldgen/biome/has_structure/flower_shrine.json
+8dadd9239813e1160b0c6fb58f0b3a962094f145 data/fairygarden/tags/worldgen/biome/has_structure/hidden_fairy_garden.json
+e09c55d7a7d720b297e8643df325a5cb7fb3d535 data/fairygarden/tags/worldgen/biome/has_structure/moonstone_circle.json
+c0499cd2cddcc980b9236383f6491a28e686b4e3 data/fairygarden/tags/worldgen/biome/has_structure/mushroom_cottage.json
+e09c55d7a7d720b297e8643df325a5cb7fb3d535 data/forge/tags/worldgen/biome/is_dense/overworld.json
+bab6f43ed7442e2871fcdcedacb31859db54a900 data/forge/tags/worldgen/biome/is_lush.json
+4ef94a4fba54b6da6112c0fe61e061c1d1582ed0 data/forge/tags/worldgen/biome/is_magical.json
+47da06501fc6556dad5d88ef65bf8533063f744e data/forge/tags/worldgen/biome/is_plains.json
+123b73561d687a4b29984e03d1b85248f25fd12b data/forge/tags/worldgen/biome/is_sparse/overworld.json
+bab6f43ed7442e2871fcdcedacb31859db54a900 data/minecraft/tags/worldgen/biome/has_structure/mineshaft.json
+47da06501fc6556dad5d88ef65bf8533063f744e data/minecraft/tags/worldgen/biome/has_structure/pillager_outpost.json
+bab6f43ed7442e2871fcdcedacb31859db54a900 data/minecraft/tags/worldgen/biome/has_structure/ruined_portal_standard.json
+b10239c031f39f868ea6aa1fde08a138f4bcba12 data/minecraft/tags/worldgen/biome/has_structure/trail_ruins.json
+47da06501fc6556dad5d88ef65bf8533063f744e data/minecraft/tags/worldgen/biome/has_structure/village_plains.json
+e09c55d7a7d720b297e8643df325a5cb7fb3d535 data/minecraft/tags/worldgen/biome/has_structure/woodland_mansion.json
+4ef94a4fba54b6da6112c0fe61e061c1d1582ed0 data/minecraft/tags/worldgen/biome/is_forest.json
+b10239c031f39f868ea6aa1fde08a138f4bcba12 data/minecraft/tags/worldgen/biome/is_hill.json
+bab6f43ed7442e2871fcdcedacb31859db54a900 data/minecraft/tags/worldgen/biome/is_overworld.json
+bab6f43ed7442e2871fcdcedacb31859db54a900 data/minecraft/tags/worldgen/biome/stronghold_biased_to.json

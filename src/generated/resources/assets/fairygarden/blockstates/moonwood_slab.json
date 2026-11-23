@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "fairygarden:block/moonwood_slab"
+    },
+    "type=double": {
+      "model": "fairygarden:block/moonwood_planks"
+    },
+    "type=top": {
+      "model": "fairygarden:block/moonwood_slab_top"
+    }
+  }
+}

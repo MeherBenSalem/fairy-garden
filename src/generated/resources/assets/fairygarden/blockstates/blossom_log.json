@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "fairygarden:block/blossom_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "fairygarden:block/blossom_log"
+    },
+    "axis=z": {
+      "model": "fairygarden:block/blossom_log_horizontal",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 84720195,
+    "separation": 6,
+    "spacing": 17
+  },
+  "structures": [
+    {
+      "structure": "fairygarden:mushroom_cottage",
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "fairygarden:block/flower_carpet",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "carpet": "fairygarden:block/pink_flower_carpet"
+  }
+}

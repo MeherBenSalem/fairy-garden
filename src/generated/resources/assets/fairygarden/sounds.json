@@ -1,0 +1,236 @@
+{
+  "ambient.blossom_valley.additions": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/birds1",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:ambient/birds2",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:ambient/birds3",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:ambient/birds4",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.ambient.birds"
+  },
+  "ambient.fairy_glade.additions": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/chimes1",
+        "volume": 0.45
+      },
+      {
+        "name": "fairygarden:ambient/chimes2",
+        "volume": 0.45
+      },
+      {
+        "name": "fairygarden:ambient/chimes3",
+        "volume": 0.45
+      },
+      {
+        "name": "fairygarden:ambient/chimes4",
+        "volume": 0.45
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.ambient.chimes"
+  },
+  "ambient.fairy_glade.loop": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/glade_loop",
+        "volume": 0.45
+      }
+    ]
+  },
+  "ambient.lavender_fields.additions": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/bees1",
+        "volume": 0.35
+      },
+      {
+        "name": "fairygarden:ambient/bees2",
+        "volume": 0.35
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.ambient.bees"
+  },
+  "ambient.lavender_fields.loop": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/lavender_loop",
+        "volume": 0.45
+      }
+    ]
+  },
+  "ambient.moonlight_forest.additions": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/night1",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:ambient/night2",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:ambient/night3",
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.ambient.night"
+  },
+  "ambient.moonlight_forest.loop": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/moonlight_loop",
+        "volume": 0.5
+      }
+    ]
+  },
+  "ambient.strawberry_meadow.additions": {
+    "sounds": [
+      {
+        "name": "fairygarden:ambient/birds1",
+        "volume": 0.45
+      },
+      {
+        "name": "fairygarden:ambient/birds2",
+        "volume": 0.45
+      },
+      {
+        "name": "fairygarden:ambient/birds3",
+        "volume": 0.45
+      },
+      {
+        "name": "fairygarden:ambient/birds4",
+        "volume": 0.45
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.ambient.birds"
+  },
+  "block.fairy_crystal.break": {
+    "sounds": [
+      "fairygarden:block/crystal_break1",
+      "fairygarden:block/crystal_break2"
+    ],
+    "subtitle": "subtitles.fairygarden.block.fairy_crystal.break"
+  },
+  "block.fairy_crystal.chime": {
+    "sounds": [
+      "fairygarden:block/crystal_chime1",
+      "fairygarden:block/crystal_chime2",
+      "fairygarden:block/crystal_chime3"
+    ],
+    "subtitle": "subtitles.fairygarden.block.fairy_crystal.chime"
+  },
+  "block.fairy_crystal.fall": {
+    "sounds": [
+      {
+        "name": "fairygarden:block/crystal_step1",
+        "volume": 0.6
+      },
+      {
+        "name": "fairygarden:block/crystal_step2",
+        "volume": 0.6
+      }
+    ]
+  },
+  "block.fairy_crystal.hit": {
+    "sounds": [
+      {
+        "name": "fairygarden:block/crystal_step1",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:block/crystal_step2",
+        "volume": 0.5
+      }
+    ]
+  },
+  "block.fairy_crystal.place": {
+    "sounds": [
+      {
+        "name": "fairygarden:block/crystal_chime1",
+        "volume": 0.7
+      },
+      {
+        "name": "fairygarden:block/crystal_chime2",
+        "volume": 0.7
+      },
+      {
+        "name": "fairygarden:block/crystal_chime3",
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.block.fairy_crystal.place"
+  },
+  "block.fairy_crystal.step": {
+    "sounds": [
+      {
+        "name": "fairygarden:block/crystal_step1",
+        "volume": 0.5
+      },
+      {
+        "name": "fairygarden:block/crystal_step2",
+        "volume": 0.5
+      }
+    ]
+  },
+  "block.moonflower.bloom": {
+    "sounds": [
+      {
+        "name": "fairygarden:block/moonflower_bloom",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.block.moonflower.bloom"
+  },
+  "entity.moon_wisp.ambient": {
+    "sounds": [
+      {
+        "name": "fairygarden:entity/wisp_ambient1",
+        "volume": 0.8
+      },
+      {
+        "name": "fairygarden:entity/wisp_ambient2",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.entity.moon_wisp.ambient"
+  },
+  "entity.moon_wisp.hurt": {
+    "sounds": [
+      {
+        "name": "fairygarden:entity/wisp_hurt",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.entity.moon_wisp.hurt"
+  },
+  "item.fairy_dust.use": {
+    "sounds": [
+      {
+        "name": "fairygarden:item/fairy_dust",
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.fairygarden.item.fairy_dust.use"
+  },
+  "music.fairy_garden": {
+    "sounds": [
+      {
+        "name": "fairygarden:music/fairy_garden",
+        "stream": true,
+        "volume": 0.7
+      }
+    ]
+  }
+}

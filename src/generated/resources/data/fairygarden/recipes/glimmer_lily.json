@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:lily_pad"
+    },
+    {
+      "item": "fairygarden:fairy_dust"
+    }
+  ],
+  "result": {
+    "item": "fairygarden:glimmer_lily"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fairygarden:rosy_daisy"
+    },
+    {
+      "item": "fairygarden:rosy_daisy"
+    },
+    {
+      "item": "minecraft:moss_carpet"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "fairygarden:pink_flower_carpet"
+  }
+}

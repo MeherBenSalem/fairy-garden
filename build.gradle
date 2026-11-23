@@ -1,0 +1,139 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = "${mod_id}-${minecraft_version}"
+}
+
+// Minecraft 1.20.1 ships Java 17 to players, so the mod targets Java 17.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+
+            // TerraBlender ships mixins with SRG refmaps; remap them to official names in dev.
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            // gradlew runClient -Pshowcase: creates a new world, gives a guided camera tour of every Fairy Garden
+            // biome and structure, then hands the world over for play. See ShowcaseTour.java.
+            if (project.hasProperty('showcase')) {
+                property 'fairygarden.showcase', 'true'
+            }
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
+        }
+
+        // Headless world-generation self test: starts a dedicated server on a fresh world, locates every
+        // Fairy Garden biome and structure, samples their decorations, writes a report and stops.
+        //   gradlew runWorldgenTest
+        worldgenTest {
+            parent runs.server
+            taskName 'runWorldgenTest'
+            property 'fairygarden.selftest', 'true'
+            args '--nogui', '--universe', 'saves', '--world', 'selftest'
+        }
+
+        // Visual check: creates a throwaway world, visits every biome/structure, builds a block gallery and saves
+        // screenshots to run/screenshots, then quits.   gradlew runSnapshots
+        snapshots {
+            parent runs.client
+            taskName 'runSnapshots'
+            property 'fairygarden.devshots', 'true'
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+// The self-test and snapshot worlds are throwaway: start each run from a freshly generated world, so changes to
+// world generation are always what gets tested.
+tasks.matching { it.name == 'runWorldgenTest' }.configureEach {
+    doFirst { delete file('run/saves/selftest') }
+}
+tasks.matching { it.name == 'runSnapshots' }.configureEach {
+    doFirst { delete file('run/saves/fairygarden_snapshots') }
+}
+
+repositories {
+    // TerraBlender is published to the Forge maven.
+    maven {
+        name = 'MinecraftForge'
+        url = 'https://maven.minecraftforge.net/'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation fg.deobf("com.github.glitchfiend:TerraBlender-forge:${minecraft_version}-${terrablender_version}")
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range, terrablender_version_range: terrablender_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+    exclude '.cache'
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+    // The snapshot and showcase tours are development tools only.
+    exclude 'com/sugarplumstudios/fairygarden/client/dev/**'
+    finalizedBy 'reobfJar'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

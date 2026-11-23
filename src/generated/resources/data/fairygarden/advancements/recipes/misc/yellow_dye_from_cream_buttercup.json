@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cream_buttercup": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:cream_buttercup"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fairygarden:yellow_dye_from_cream_buttercup"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_cream_buttercup",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fairygarden:yellow_dye_from_cream_buttercup"
+    ]
+  },
+  "sends_telemetry_event": false
+}
