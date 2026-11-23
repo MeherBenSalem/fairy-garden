@@ -84,6 +84,9 @@ jobs:
         timeout-minutes: 40
         run: |
           mkdir -p run && echo "eula=true" > run/eula.txt
+          # A fixed seed (the same one the server boot test uses) keeps the run repeatable. The self test searches for
+          # each structure on the server thread, which can take more than the watchdog's 60 s on a slow runner.
+          printf 'level-seed=fairygarden\nmax-tick-time=-1\nonline-mode=false\n' > run/server.properties
           ./gradlew createSrgToMcp runWorldgenTest --stacktrace
       - name: Check the report
         run: |
