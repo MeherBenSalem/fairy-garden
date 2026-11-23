@@ -113,11 +113,12 @@ jobs:
           set -euo pipefail
           for jar in ci-jars/*.jar; do
             list=$(unzip -Z1 "$jar")
-            echo "$list" | grep -q '^data/fairygarden/worldgen/biome/blossom_valley.json$' || { echo "$jar: no biome data"; exit 1; }
-            echo "$list" | grep -q '^assets/fairygarden/blockstates/' || { echo "$jar: no blockstates"; exit 1; }
-            ! echo "$list" | grep -q '^\.cache/' || { echo "$jar: the datagen cache is in the jar"; exit 1; }
+            # Here-strings, not echo | grep -q: grep stops early and pipefail would count echo's broken pipe.
+            grep -q '^data/fairygarden/worldgen/biome/blossom_valley.json$' <<< "$list" || { echo "$jar: no biome data"; exit 1; }
+            grep -q '^assets/fairygarden/blockstates/' <<< "$list" || { echo "$jar: no blockstates"; exit 1; }
+            ! grep -q '^\.cache/' <<< "$list" || { echo "$jar: the datagen cache is in the jar"; exit 1; }
             meta=$(unzip -p "$jar" fabric.mod.json META-INF/neoforge.mods.toml META-INF/mods.toml 2>/dev/null || true)
-            echo "$meta" | grep -q terrablender || { echo "$jar: does not require TerraBlender"; exit 1; }
+            grep -q terrablender <<< "$meta" || { echo "$jar: does not require TerraBlender"; exit 1; }
             echo "OK $jar"
           done
       - uses: actions/upload-artifact@v4
