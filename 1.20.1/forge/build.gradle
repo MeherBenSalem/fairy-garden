@@ -1,0 +1,90 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev.legacyforge'
+}
+
+legacyForge {
+    version = "${minecraft_version}-${forge_version}"
+
+    parchment {
+        minecraftVersion = parchment_minecraft
+        mappingsVersion = parchment_version
+    }
+    runs {
+        configureEach {
+            ideName = "Forge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+            systemProperty 'forge.enabledGameTestNamespaces', mod_id
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+        }
+        client {
+            client()
+            gameDirectory = project.file('runs/client')
+            // ./gradlew :forge:runClient -Pshowcase creates a new world, gives a guided camera tour of every Fairy Garden
+            // biome and structure, then hands the world over for play. See ShowcaseTour.java.
+            if (project.hasProperty('showcase')) systemProperty 'fairygarden.showcase', 'true'
+        }
+        server {
+            server()
+            gameDirectory = project.file('runs/server')
+            programArgument '--nogui'
+        }
+        // Headless world-generation self test: starts a dedicated server on a fresh world, locates every Fairy Garden
+        // biome and structure, samples their decorations, writes a report and stops.   ./gradlew :forge:runWorldgenTest
+        worldgenTest {
+            server()
+            gameDirectory = project.file('runs/selftest')
+            systemProperty 'fairygarden.selftest', 'true'
+            programArguments.addAll('--nogui', '--universe', 'saves', '--world', 'selftest')
+        }
+        // Visual check: creates a throwaway world, visits every biome/structure, builds a block gallery, saves
+        // screenshots to runs/snapshots/screenshots and quits.   ./gradlew :forge:runSnapshots [-PshotSize=1920x1080]
+        snapshots {
+            client()
+            gameDirectory = project.file('runs/snapshots')
+            systemProperty 'fairygarden.devshots', 'true'
+            if (project.hasProperty('shotSize')) {
+                def (w, h) = project.property('shotSize').toString().tokenize('x')
+                programArguments.addAll('--width', w, '--height', h)
+            }
+        }
+        // Runs the mod's GameTests headlessly, then exits (non-zero on failure).
+        gameTestServer {
+            type = "gameTestServer"
+            gameDirectory = project.file('runs/gametest')
+        }
+        // Forge data generators write the canonical generated resources of every workspace into
+        // common/src/generated/resources (tools/port_data.py converts them for 1.21.1 and 26.x).
+        data {
+            data()
+            gameDirectory = project.file('runs/data')
+            programArguments.addAll('--mod', mod_id, '--all',
+                    '--output', project(':common').file('src/generated/resources/').absolutePath,
+                    '--existing', project(':common').file('src/main/resources/').absolutePath)
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+// The self-test and snapshot worlds are throwaway: start each run from a freshly generated world.
+tasks.matching { it.name == 'runWorldgenTest' }.configureEach {
+    doFirst { delete file('runs/selftest/saves/selftest') }
+}
+tasks.matching { it.name == 'runSnapshots' }.configureEach {
+    doFirst { delete file('runs/snapshots/saves/fairygarden_snapshots') }
+}
+
+dependencies {
+    // Published Forge mods are SRG-mapped; MDG remaps only `mod*` configurations.
+    modImplementation "com.github.glitchfiend:TerraBlender-forge:${terrablender_forge_version}"
+}
+
+jar {
+    // The snapshot and showcase tours are development tools only.
+    exclude 'com/sugarplumstudios/fairygarden/client/dev/**'
+    finalizedBy('reobfJar')
+}

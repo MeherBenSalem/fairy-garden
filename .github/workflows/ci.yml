@@ -1,42 +1,100 @@
-# Builds the Forge 1.20.1 jar and checks that it runs: the mod's GameTests (runGameTestServer), the world-generation
-# self test (runWorldgenTest: finds every biome and structure on seed "fairygarden", generates them and counts what was
-# placed), a real Forge dedicated server booted with the built jar and TerraBlender on a normal world that generates
-# every biome and structure (scripts/server-boot-test.sh), and a real client that visits every biome and structure,
-# screenshots them and quits (runSnapshots). Runs on pull requests, by hand, and from the Build release jar workflow.
+# CI for Fairy Garden (NightBeam convention; modelled on Cottagecore Living's and RE:Constructed Wands' ci.yml).
+# Builds all 8 jars (1.20.1 Fabric + Forge; 1.21.1, 26.2, 26.3 Fabric + NeoForge) with ./gradlew buildAll, checks
+# that every workspace has the same version= and that the metadata ranges stay inside their Minecraft line, runs the
+# publisher script tests (the same-day guard and the jar-name detection the upload step uses), and checks that the
+# mod runs:
+#   - the 1.20.1 Forge jar: manifest, mods.toml (with TerraBlender), SRG names, generated data, no dev tools;
+#   - the mod's GameTests on 1.20.1 Forge (runGameTestServer);
+#   - the world-generation self test on 1.20.1 Forge (finds, generates and counts every biome and structure);
+#   - a real Forge 1.20.1 dedicated server booted with the built jar and TerraBlender that generates every biome and
+#     structure (scripts/server-boot-test.sh);
+#   - a dev server for every target that places every block, summons the creatures and locates every biome and
+#     structure (scripts/server-smoke-test.sh);
+#   - a 1.20.1 Forge client that visits every biome and structure, screenshots them and quits (runSnapshots).
 # It never publishes anything.
 
 name: CI
 
 on:
-  pull_request:
+  push:
+    branches: [main]
   workflow_dispatch:
-  workflow_call:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Check publisher syntax
+        run: |
+          for f in scripts/*.mjs .github/scripts/*.js; do node --check "$f"; done
+      - name: Test publisher scripts (same-day guard)
+        run: node --test scripts/*.test.mjs
+      # Jar name -> loader + Minecraft version, as the upload step reads it (calendar versions such as 26.2 must
+      # never fall back to 1.21.1).
+      - name: Test jar metadata detection
+        run: node .github/scripts/detect-jar-meta.test.js
+      - name: Check the 8 targets, one version and metadata ranges
+        run: python3 scripts/check_targets.py workspaces
+      # The 1.21.1 and 26.x resources are converted from the 1.20.1 data generator output.
+      - name: Check the ported resources are up to date
+        run: python3 tools/port_data.py --check
+
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # 21 stays JAVA_HOME (Gradle for 1.20.1/1.21.1); 17 is the 1.20.1 toolchain; the root build hands 26.x
+      # JAVA_HOME_25_X64.
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: |
+            17
+            25
+            21
       - uses: gradle/actions/setup-gradle@v4
-      - run: chmod +x gradlew
-      - name: Build
-        run: ./gradlew build --stacktrace
-      - name: Check the jar
+      - name: TerraBlender versions on the Forge maven (information only)
+        continue-on-error: true
         run: |
-          set -e
-          V=$(grep '^mod_version=' gradle.properties | cut -d= -f2)
-          MC=$(grep '^minecraft_version=' gradle.properties | cut -d= -f2)
-          name="fairygarden-forge-$MC-$V.jar"
-          jar="build/libs/$name"
-          ls -la build/libs
+          for a in TerraBlender-forge TerraBlender-fabric TerraBlender-neoforge; do
+            echo "== $a"; curl -fsSL "https://maven.minecraftforge.net/com/github/glitchfiend/$a/maven-metadata.xml" \
+              | grep -o '<version>[^<]*</version>' | sed 's/<[^>]*>//g' | grep -E '^(1\.20\.1|1\.21\.1|26\.)' | tail -12 || true
+          done
+      - name: Build all 8 jars
+        run: |
+          chmod +x gradlew 1.20.1/gradlew 1.21.1/gradlew 26.2/gradlew 26.3/gradlew
+          ./gradlew buildAll --no-daemon --continue
+      - name: Check the 8 jars
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(python3 scripts/check_targets.py version)"
+          python3 scripts/check_targets.py jars --version "$version" --dir releases --list-file ci-jars.txt
+          mkdir -p ci-jars
+          xargs -a ci-jars.txt cp -f -t ci-jars/
+          # The upload step must be able to read loader + Minecraft version from every built jar name.
+          while IFS= read -r jar; do node .github/scripts/detect-jar-meta.js "$jar"; done < ci-jars.txt
+      - name: Check the 1.20.1 Forge jar
+        shell: bash
+        run: |
+          set -euo pipefail
+          V="$(python3 scripts/check_targets.py version)"
+          name="fairygarden-forge-1.20.1-$V.jar"
+          jar="ci-jars/$name"
           [ -f "$jar" ] || { echo "Missing $jar"; exit 1; }
           dir=$(mktemp -d); unzip -q "$jar" -d "$dir"
           grep -q "Implementation-Version: $V" "$dir/META-INF/MANIFEST.MF" || { echo "Manifest is not $V"; exit 1; }
@@ -49,63 +107,85 @@ jobs:
           [ ! -d "$dir/.cache" ] || { echo "The datagen cache is in the jar"; exit 1; }
           find "$dir/com" -name '*.class' -exec strings {} + | grep -q -E '^(m|f)_[0-9]+_$' || { echo "The jar is not SRG-mapped"; exit 1; }
           echo "OK $name $(stat -c %s "$jar") bytes, $(ls $dir/assets/fairygarden/blockstates | wc -l) blockstates"
+      - name: Check every jar has the mod data and requires TerraBlender
+        shell: bash
+        run: |
+          set -euo pipefail
+          for jar in ci-jars/*.jar; do
+            list=$(unzip -Z1 "$jar")
+            echo "$list" | grep -q '^data/fairygarden/worldgen/biome/blossom_valley.json$' || { echo "$jar: no biome data"; exit 1; }
+            echo "$list" | grep -q '^assets/fairygarden/blockstates/' || { echo "$jar: no blockstates"; exit 1; }
+            ! echo "$list" | grep -q '^\.cache/' || { echo "$jar: the datagen cache is in the jar"; exit 1; }
+            meta=$(unzip -p "$jar" fabric.mod.json META-INF/neoforge.mods.toml META-INF/mods.toml 2>/dev/null || true)
+            echo "$meta" | grep -q terrablender || { echo "$jar: does not require TerraBlender"; exit 1; }
+            echo "OK $jar"
+          done
       - uses: actions/upload-artifact@v4
         with:
-          name: jar
-          path: build/libs/fairygarden-forge-*.jar
+          name: fairygarden-jars
+          path: ci-jars/*.jar
+          if-no-files-found: error
 
   gametests:
-    name: GameTests
+    name: GameTests (1.20.1 Forge)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: |
+            17
+            21
       - uses: gradle/actions/setup-gradle@v4
-      - run: chmod +x gradlew
       - name: Run the GameTests
         timeout-minutes: 25
-        run: ./gradlew createSrgToMcp runGameTestServer --stacktrace
+        working-directory: 1.20.1
+        run: |
+          chmod +x gradlew
+          ./gradlew :forge:runGameTestServer --stacktrace -Porg.gradle.java.installations.fromEnv=JAVA_HOME_17_X64,JAVA_HOME_21_X64
 
   worldgen:
-    name: World generation self test
+    name: World generation self test (1.20.1 Forge)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: |
+            17
+            21
       - uses: gradle/actions/setup-gradle@v4
-      - run: chmod +x gradlew
       - name: Find, generate and count every biome and structure
         timeout-minutes: 40
+        working-directory: 1.20.1
         run: |
-          mkdir -p run && echo "eula=true" > run/eula.txt
-          # A fixed seed (the same one the server boot test uses) keeps the run repeatable. The self test searches for
+          chmod +x gradlew
+          mkdir -p forge/runs/selftest && echo "eula=true" > forge/runs/selftest/eula.txt
+          # A fixed seed (the same one the server tests use) keeps the run repeatable. The self test searches for
           # each structure on the server thread, which can take more than the watchdog's 60 s on a slow runner.
-          printf 'level-seed=fairygarden\nmax-tick-time=-1\nonline-mode=false\n' > run/server.properties
-          ./gradlew createSrgToMcp runWorldgenTest --stacktrace
+          printf 'level-seed=fairygarden\nmax-tick-time=-1\nonline-mode=false\n' > forge/runs/selftest/server.properties
+          ./gradlew :forge:runWorldgenTest --stacktrace -Porg.gradle.java.installations.fromEnv=JAVA_HOME_17_X64,JAVA_HOME_21_X64
       - name: Check the report
+        working-directory: 1.20.1/forge/runs/selftest
         run: |
-          cat run/fairygarden-selftest.txt
-          [ ! -d run/crash-reports ] || { head -150 run/crash-reports/*.txt; exit 1; }
-          tail -1 run/fairygarden-selftest.txt | grep -q "RESULT: PASS" || { echo "The self test did not pass"; exit 1; }
+          cat fairygarden-selftest.txt
+          [ ! -d crash-reports ] || { head -150 crash-reports/*.txt; exit 1; }
+          tail -1 fairygarden-selftest.txt | grep -q "RESULT: PASS" || { echo "The self test did not pass"; exit 1; }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: worldgen-selftest
           path: |
-            run/fairygarden-selftest.txt
-            run/fairygarden-biome-map.png
-            run/logs/latest.log
-            run/crash-reports/**
+            1.20.1/forge/runs/selftest/fairygarden-selftest.txt
+            1.20.1/forge/runs/selftest/fairygarden-biome-map.png
+            1.20.1/forge/runs/selftest/logs/latest.log
+            1.20.1/forge/runs/selftest/crash-reports/**
           if-no-files-found: ignore
 
-  server-test:
-    name: Server boot test with the built jar
+  server-boot:
+    name: Server boot test with the built 1.20.1 Forge jar
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -116,12 +196,12 @@ jobs:
           java-version: "17"
       - uses: actions/download-artifact@v4
         with:
-          name: jar
-          path: jar
+          name: fairygarden-jars
+          path: jars
       - run: chmod +x scripts/server-boot-test.sh
       - name: Boot a Forge server, place every block and generate every biome and structure
         timeout-minutes: 30
-        run: scripts/server-boot-test.sh jar/fairygarden-forge-*.jar
+        run: scripts/server-boot-test.sh jars/fairygarden-forge-1.20.1-*.jar
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -132,44 +212,89 @@ jobs:
             build/boot-test-server/crash-reports/**
           if-no-files-found: ignore
 
+  # Starts a real dev server for each target, places every block, summons the creatures and locates every biome and
+  # structure, so the registries, the TerraBlender region, the data packs and the loader glue of each line run (a
+  # compile alone can't prove that). 1.20.1 Fabric and 26.3 Fabric must pass.
+  server-smoke:
+    name: Server smoke test, ${{ matrix.loader }} ${{ matrix.minecraft }}
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.optional }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { minecraft: "1.20.1", loader: fabric, toolchain: "17", gradle_java: "21", optional: false }
+          - { minecraft: "1.20.1", loader: forge, toolchain: "17", gradle_java: "21", optional: true }
+          - { minecraft: "1.21.1", loader: fabric, toolchain: "17", gradle_java: "21", optional: true }
+          - { minecraft: "1.21.1", loader: neoforge, toolchain: "17", gradle_java: "21", optional: true }
+          - { minecraft: "26.2", loader: fabric, toolchain: "21", gradle_java: "25", optional: true }
+          - { minecraft: "26.2", loader: neoforge, toolchain: "21", gradle_java: "25", optional: true }
+          - { minecraft: "26.3", loader: fabric, toolchain: "21", gradle_java: "25", optional: false }
+          - { minecraft: "26.3", loader: neoforge, toolchain: "21", gradle_java: "25", optional: true }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            ${{ matrix.toolchain }}
+            ${{ matrix.gradle_java }}
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x ${{ matrix.minecraft }}/gradlew scripts/server-smoke-test.sh
+      - name: Place every block and locate every biome and structure on a dev server
+        timeout-minutes: 35
+        run: scripts/server-smoke-test.sh ${{ matrix.minecraft }} ${{ matrix.loader }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: server-smoke-${{ matrix.minecraft }}-${{ matrix.loader }}
+          path: |
+            server-smoke-*.log
+            ${{ matrix.minecraft }}/${{ matrix.loader }}/runs/server/crash-reports/**
+          if-no-files-found: ignore
+
   client-test:
-    name: Client launch test
+    name: Client snapshot test (1.20.1 Forge)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: |
+            17
+            21
       - uses: gradle/actions/setup-gradle@v4
       - name: Install Xvfb and Mesa
         run: sudo apt-get update && sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-utils
-      - run: chmod +x gradlew
       - name: Launch the client, visit every biome and structure, screenshot them and quit
         timeout-minutes: 45
+        working-directory: 1.20.1
         run: |
-          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +extension RENDER" sh -c 'glxinfo -B | head -20; ./gradlew createSrgToMcp runSnapshots -PshotSize=1920x1080 --stacktrace'
+          chmod +x gradlew
+          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +extension RENDER" sh -c 'glxinfo -B | head -20; ./gradlew :forge:runSnapshots -PshotSize=1920x1080 --stacktrace -Porg.gradle.java.installations.fromEnv=JAVA_HOME_17_X64,JAVA_HOME_21_X64'
       - name: Check the screenshots and the log
+        working-directory: 1.20.1/forge/runs/snapshots
         run: |
           set -e
-          ls -la run/screenshots || true
-          n=$(ls run/screenshots/fairygarden_*.png 2>/dev/null | wc -l)
+          ls -la screenshots || true
+          n=$(ls screenshots/fairygarden_*.png 2>/dev/null | wc -l)
           echo "$n screenshots"
-          [ ! -d run/crash-reports ] || { head -150 run/crash-reports/*.txt; exit 1; }
+          [ ! -d crash-reports ] || { head -150 crash-reports/*.txt; exit 1; }
           for s in blossom_valley_day lavender_fields_day strawberry_meadow_day moonlight_forest_day moonlight_forest_night fairy_glade_day fairy_glade_night flower_shrine hidden_fairy_garden moonstone_circle mushroom_cottage gallery_day gallery_night; do
-            [ -f "run/screenshots/fairygarden_$s.png" ] || { echo "Missing the $s screenshot"; exit 1; }
+            [ -f "screenshots/fairygarden_$s.png" ] || { echo "Missing the $s screenshot"; exit 1; }
           done
-          grep -q "\[devshots\] finished, quitting" run/logs/latest.log || { echo "The snapshot tour did not finish"; exit 1; }
-          if grep -E "ERROR|Exception|Caused by" run/logs/latest.log | grep -E 'com\.sugarplumstudios|fairygarden[:.]|\[devshots\] step'; then echo "The log has errors naming Fairy Garden"; exit 1; fi
+          grep -q "\[devshots\] finished, quitting" logs/latest.log || { echo "The snapshot tour did not finish"; exit 1; }
+          if grep -E "ERROR|Exception|Caused by" logs/latest.log | grep -E 'com\.sugarplumstudios|fairygarden[:.]|\[devshots\] step'; then echo "The log has errors naming Fairy Garden"; exit 1; fi
       - name: Errors in the log
         if: always()
-        run: grep -n -E "ERROR|Exception|Caused by|at com\.sugarplum|\[devshots\]" run/logs/latest.log | head -200 || true
+        run: grep -n -E "ERROR|Exception|Caused by|at com\.sugarplum|\[devshots\]" 1.20.1/forge/runs/snapshots/logs/latest.log | head -200 || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: client-test
           path: |
-            run/screenshots/**
-            run/logs/latest.log
-            run/crash-reports/**
+            1.20.1/forge/runs/snapshots/screenshots/**
+            1.20.1/forge/runs/snapshots/logs/latest.log
+            1.20.1/forge/runs/snapshots/crash-reports/**
           if-no-files-found: ignore

@@ -12,18 +12,19 @@
 set -u
 JAR="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-prop() { grep "^$1=" "$ROOT/gradle.properties" | cut -d= -f2; }
+# Versions from the 1.20.1 workspace (the Forge jar's own build).
+prop() { grep "^$1=" "$ROOT/1.20.1/gradle.properties" | cut -d= -f2; }
 MC=$(prop minecraft_version)
 FORGE=$(prop forge_version)
-TB=$(prop terrablender_version)
+TB_FULL=$(prop terrablender_forge_version)
 SERVER="$ROOT/build/boot-test-server"
 rm -rf "$SERVER"; mkdir -p "$SERVER/mods"
 cd "$SERVER"
 
 curl -fsSL -o installer.jar "https://maven.minecraftforge.net/net/minecraftforge/forge/$MC-$FORGE/forge-$MC-$FORGE-installer.jar"
 java -jar installer.jar --installServer > install.log 2>&1 || { tail -40 install.log; exit 1; }
-curl -fsSL -o "mods/TerraBlender-forge-$MC-$TB.jar" \
-  "https://maven.minecraftforge.net/com/github/glitchfiend/TerraBlender-forge/$MC-$TB/TerraBlender-forge-$MC-$TB.jar"
+curl -fsSL -o "mods/TerraBlender-forge-$TB_FULL.jar" \
+  "https://maven.minecraftforge.net/com/github/glitchfiend/TerraBlender-forge/$TB_FULL/TerraBlender-forge-$TB_FULL.jar"
 cp "$JAR" mods/
 ls -la mods
 

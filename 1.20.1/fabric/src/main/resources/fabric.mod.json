@@ -1,0 +1,34 @@
+{
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${version}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "authors": [
+        "${mod_author}"
+    ],
+    "license": "${license}",
+    "icon": "fairygarden_logo.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.sugarplumstudios.fairygarden.fabric.FairyGardenFabric"
+        ],
+        "client": [
+            "com.sugarplumstudios.fairygarden.fabric.FairyGardenFabricClient"
+        ],
+        "terrablender": [
+            "com.sugarplumstudios.fairygarden.fabric.FairyGardenTerraBlender"
+        ]
+    },
+    "mixins": [
+        "${mod_id}.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=${fabric_loader_version}",
+        "fabric-api": "*",
+        "terrablender": ">=${terrablender_fabric_min}",
+        "minecraft": "${minecraft_version}",
+        "java": ">=${java_version}"
+    }
+}

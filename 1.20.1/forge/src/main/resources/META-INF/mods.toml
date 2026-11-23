@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="${forge_loader_version_range}"
+license="${license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
+authors="${mod_author}"
+logoFile="fairygarden_logo.png"
+credits="${credits}"
+description='''${description}'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_loader_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+# Biome placement in the Overworld is done through TerraBlender regions.
+[[dependencies.${mod_id}]]
+    modId="terrablender"
+    mandatory=true
+    versionRange="${terrablender_version_range}"
+    ordering="AFTER"
+    side="BOTH"
