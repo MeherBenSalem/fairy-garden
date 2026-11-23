@@ -24,6 +24,7 @@
     },
     "minecraft:gameplay/natural_mob_spawns": {
       "argument": {
+        "spawn_costs": {},
         "spawns_by_category": {
           "ambient": [
             {

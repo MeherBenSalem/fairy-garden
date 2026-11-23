@@ -35,10 +35,10 @@ public final class FairyGardenFabric implements ModInitializer {
         CommonSetup.registerFlammability(flammables::add);
         for (WoodSet set : ModBlocks.WOOD_SETS) {
             // The signs are vanilla sign blocks; the vanilla sign block entity types must accept them.
-            BlockEntityTypes.SIGN.addSupportedBlock(set.sign.get());
-            BlockEntityTypes.SIGN.addSupportedBlock(set.wallSign.get());
-            BlockEntityTypes.HANGING_SIGN.addSupportedBlock(set.hangingSign.get());
-            BlockEntityTypes.HANGING_SIGN.addSupportedBlock(set.wallHangingSign.get());
+            BlockEntityTypes.SIGN.addValidBlock(set.sign.get());
+            BlockEntityTypes.SIGN.addValidBlock(set.wallSign.get());
+            BlockEntityTypes.HANGING_SIGN.addValidBlock(set.hangingSign.get());
+            BlockEntityTypes.HANGING_SIGN.addValidBlock(set.wallHangingSign.get());
         }
         // 26.3: stripping is the axe's block transformer; Fabric's strippable registry is gone.
         UseBlockCallback.EVENT.register(LogStripping::onUseBlock);

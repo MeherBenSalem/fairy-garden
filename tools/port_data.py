@@ -364,6 +364,14 @@ def trees(data: Path, v263: bool) -> None:
     configured = data / M / "worldgen" / "configured_feature"
     for path in sorted(configured.rglob("*.json")):
         body = load(path)
+        if body.get("type") in ("minecraft:huge_red_mushroom", "minecraft:huge_brown_mushroom"):
+            # 26.x: huge mushrooms name the ground they grow on, as vanilla's do (its tag holds the old checks:
+            # dirt and mushroom-growing blocks).
+            kind = body["type"].split(":")[1]
+            body["config"]["can_place_on"] = {"type": "minecraft:matching_block_tag",
+                                              "tag": f"minecraft:{kind}_can_place_on"}
+            dump(path, body)
+            continue
         if body.get("type") != "minecraft:tree":
             continue
         config = body["config"]
@@ -630,10 +638,8 @@ def biome_263(body: dict) -> dict:
     costs = body.pop("spawn_costs", {})
     by_category = {cat: [spawn_entry_263(e) for e in entries] for cat, entries in spawners.items() if entries}
     if by_category or costs:
-        argument = {}
-        if costs:
-            argument["spawn_costs"] = costs
-        argument["spawns_by_category"] = by_category
+        # 26.3 requires both keys, spawn_costs too (empty when the biome has none).
+        argument = {"spawn_costs": costs, "spawns_by_category": by_category}
         body["attributes"]["minecraft:gameplay/natural_mob_spawns"] = {"argument": argument, "modifier": "overlay"}
     return body
 

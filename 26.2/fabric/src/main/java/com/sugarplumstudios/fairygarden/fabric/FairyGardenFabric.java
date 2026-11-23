@@ -36,10 +36,10 @@ public final class FairyGardenFabric implements ModInitializer {
         CommonSetup.registerCompostables();
         for (WoodSet set : ModBlocks.WOOD_SETS) {
             // The signs are vanilla sign blocks; the vanilla sign block entity types must accept them.
-            BlockEntityTypes.SIGN.addSupportedBlock(set.sign.get());
-            BlockEntityTypes.SIGN.addSupportedBlock(set.wallSign.get());
-            BlockEntityTypes.HANGING_SIGN.addSupportedBlock(set.hangingSign.get());
-            BlockEntityTypes.HANGING_SIGN.addSupportedBlock(set.wallHangingSign.get());
+            BlockEntityTypes.SIGN.addValidBlock(set.sign.get());
+            BlockEntityTypes.SIGN.addValidBlock(set.wallSign.get());
+            BlockEntityTypes.HANGING_SIGN.addValidBlock(set.hangingSign.get());
+            BlockEntityTypes.HANGING_SIGN.addValidBlock(set.wallHangingSign.get());
             for (Block block : new Block[]{set.log.get(), set.wood.get()}) {
                 Block stripped = ((StrippableLogBlock) block).stripped();
                 if (stripped != null) {
