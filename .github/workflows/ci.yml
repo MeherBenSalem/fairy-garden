@@ -82,7 +82,9 @@ jobs:
       - run: chmod +x gradlew
       - name: Find, generate and count every biome and structure
         timeout-minutes: 40
-        run: ./gradlew createSrgToMcp runWorldgenTest --stacktrace
+        run: |
+          mkdir -p run && echo "eula=true" > run/eula.txt
+          ./gradlew createSrgToMcp runWorldgenTest --stacktrace
       - name: Check the report
         run: |
           cat run/fairygarden-selftest.txt

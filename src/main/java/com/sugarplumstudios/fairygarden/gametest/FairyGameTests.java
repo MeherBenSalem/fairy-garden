@@ -155,7 +155,7 @@ public final class FairyGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = TEMPLATE, batch = "daynight")
+    @GameTest(template = TEMPLATE, batch = "daynight", timeoutTicks = 400)
     public static void moonflowersFollowTheTimeAndStarbloomGrowsOnlyAtNight(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         long before = level.getDayTime();
@@ -163,23 +163,30 @@ public final class FairyGameTests {
         helper.setBlock(PLANT, ModBlocks.STARBLOOM.get().defaultBlockState());
         BlockPos flowerGround = new BlockPos(3, 0, 1);
         BlockPos flower = new BlockPos(3, 1, 1);
+        BlockPos plant = helper.absolutePos(PLANT);
+        BlockPos pos = helper.absolutePos(flower);
         helper.setBlock(flowerGround, Blocks.GRASS_BLOCK);
         helper.setBlock(flower, ModBlocks.MOONFLOWER.get().defaultBlockState().setValue(MoonflowerBlock.OPEN, false));
         level.setDayTime(18000L);
-        helper.runAfterDelay(5, () -> {
-            check(helper, StarbloomCropBlock.canGrowNow(level, helper.absolutePos(PLANT)), "starbloom can't grow at midnight under the open sky");
-            BlockPos pos = helper.absolutePos(flower);
-            level.getBlockState(pos).randomTick(level, pos, level.random);
-            check(helper, at(helper, flower).getValue(MoonflowerBlock.OPEN), "the moonflower didn't open at night");
-            level.setDayTime(6000L);
-            helper.runAfterDelay(5, () -> {
-                check(helper, !StarbloomCropBlock.canGrowNow(level, helper.absolutePos(PLANT)), "starbloom can grow at noon");
-                level.getBlockState(pos).randomTick(level, pos, level.random);
-                check(helper, !at(helper, flower).getValue(MoonflowerBlock.OPEN), "the moonflower didn't close by day");
-                level.setDayTime(before);
-                helper.succeed();
-            });
-        });
+        // The sky darkens on the next server tick and the light engine needs a moment for the freshly built plot,
+        // so each step waits until its condition holds (or the test times out).
+        helper.startSequence()
+                .thenWaitUntil(() -> check(helper, !level.isDay(), "it isn't night at midnight"))
+                .thenWaitUntil(() -> check(helper, level.canSeeSky(plant), "the starbloom can't see the open sky"))
+                .thenExecute(() -> {
+                    check(helper, StarbloomCropBlock.canGrowNow(level, plant), "starbloom can't grow at midnight under the open sky");
+                    level.getBlockState(pos).randomTick(level, pos, level.random);
+                    check(helper, at(helper, flower).getValue(MoonflowerBlock.OPEN), "the moonflower didn't open at night");
+                    level.setDayTime(6000L);
+                })
+                .thenWaitUntil(() -> check(helper, level.isDay(), "it isn't day at noon"))
+                .thenExecute(() -> {
+                    check(helper, !StarbloomCropBlock.canGrowNow(level, plant), "starbloom can grow at noon");
+                    level.getBlockState(pos).randomTick(level, pos, level.random);
+                    check(helper, !at(helper, flower).getValue(MoonflowerBlock.OPEN), "the moonflower didn't close by day");
+                    level.setDayTime(before);
+                })
+                .thenSucceed();
     }
 
     // ------------------------------------------------------------------ blocks and items
