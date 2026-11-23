@@ -172,7 +172,11 @@ public final class FairyGameTests {
         // so each step waits until its condition holds (or the test times out).
         helper.startSequence()
                 .thenWaitUntil(() -> check(helper, !level.isDay(), "it isn't night at midnight"))
-                .thenWaitUntil(() -> check(helper, level.canSeeSky(plant), "the starbloom can't see the open sky"))
+                .thenWaitUntil(() -> check(helper, level.canSeeSky(plant), "the starbloom can't see the open sky (sky light "
+                        + level.getBrightness(net.minecraft.world.level.LightLayer.SKY, plant) + ", block above "
+                        + level.getBlockState(plant.above()) + ", open-sky height "
+                        + level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, plant.getX(), plant.getZ())
+                        + ", plant y " + plant.getY() + ")"))
                 .thenExecute(() -> {
                     check(helper, StarbloomCropBlock.canGrowNow(level, plant), "starbloom can't grow at midnight under the open sky");
                     level.getBlockState(pos).randomTick(level, pos, level.random);
