@@ -159,35 +159,41 @@ public final class FairyGameTests {
     public static void moonflowersFollowTheTimeAndStarbloomGrowsOnlyAtNight(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         long before = level.getDayTime();
+        // The game test server builds its test plots inside a normally generated world, under the terrain, so the
+        // plot's starbloom is covered: it must not grow even at night. A second starbloom at the build limit, above
+        // everything, stands under the open sky.
         helper.setBlock(GROUND, Blocks.FARMLAND);
         helper.setBlock(PLANT, ModBlocks.STARBLOOM.get().defaultBlockState());
+        BlockPos covered = helper.absolutePos(PLANT);
+        BlockPos open = new BlockPos(covered.getX(), level.getMaxBuildHeight() - 2, covered.getZ());
+        level.setBlockAndUpdate(open.below(), Blocks.FARMLAND.defaultBlockState());
+        level.setBlockAndUpdate(open, ModBlocks.STARBLOOM.get().defaultBlockState());
         BlockPos flowerGround = new BlockPos(3, 0, 1);
         BlockPos flower = new BlockPos(3, 1, 1);
-        BlockPos plant = helper.absolutePos(PLANT);
         BlockPos pos = helper.absolutePos(flower);
         helper.setBlock(flowerGround, Blocks.GRASS_BLOCK);
         helper.setBlock(flower, ModBlocks.MOONFLOWER.get().defaultBlockState().setValue(MoonflowerBlock.OPEN, false));
         level.setDayTime(18000L);
-        // The sky darkens on the next server tick and the light engine needs a moment for the freshly built plot,
+        // The sky darkens on the next server tick and the light engine needs a moment for the new blocks,
         // so each step waits until its condition holds (or the test times out).
         helper.startSequence()
                 .thenWaitUntil(() -> check(helper, !level.isDay(), "it isn't night at midnight"))
-                .thenWaitUntil(() -> check(helper, level.canSeeSky(plant), "the starbloom can't see the open sky (sky light "
-                        + level.getBrightness(net.minecraft.world.level.LightLayer.SKY, plant) + ", block above "
-                        + level.getBlockState(plant.above()) + ", open-sky height "
-                        + level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, plant.getX(), plant.getZ())
-                        + ", plant y " + plant.getY() + ")"))
+                .thenWaitUntil(() -> check(helper, level.canSeeSky(open), "the starbloom at the build limit can't see the sky (sky light "
+                        + level.getBrightness(net.minecraft.world.level.LightLayer.SKY, open) + ")"))
                 .thenExecute(() -> {
-                    check(helper, StarbloomCropBlock.canGrowNow(level, plant), "starbloom can't grow at midnight under the open sky");
+                    check(helper, StarbloomCropBlock.canGrowNow(level, open), "starbloom can't grow at midnight under the open sky");
+                    check(helper, !StarbloomCropBlock.canGrowNow(level, covered), "starbloom can grow underground");
                     level.getBlockState(pos).randomTick(level, pos, level.random);
                     check(helper, at(helper, flower).getValue(MoonflowerBlock.OPEN), "the moonflower didn't open at night");
                     level.setDayTime(6000L);
                 })
                 .thenWaitUntil(() -> check(helper, level.isDay(), "it isn't day at noon"))
                 .thenExecute(() -> {
-                    check(helper, !StarbloomCropBlock.canGrowNow(level, plant), "starbloom can grow at noon");
+                    check(helper, !StarbloomCropBlock.canGrowNow(level, open), "starbloom can grow at noon");
                     level.getBlockState(pos).randomTick(level, pos, level.random);
                     check(helper, !at(helper, flower).getValue(MoonflowerBlock.OPEN), "the moonflower didn't close by day");
+                    level.setBlockAndUpdate(open, Blocks.AIR.defaultBlockState());
+                    level.setBlockAndUpdate(open.below(), Blocks.AIR.defaultBlockState());
                     level.setDayTime(before);
                 })
                 .thenSucceed();
