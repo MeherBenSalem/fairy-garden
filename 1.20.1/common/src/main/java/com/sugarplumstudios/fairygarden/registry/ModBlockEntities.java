@@ -11,17 +11,15 @@ import com.sugarplumstudios.fairygarden.platform.RegistryEntry;
 
 public final class ModBlockEntities {
 
-    @SuppressWarnings("DataFlowIssue")
     public static final RegistryEntry<BlockEntityType<ModSignBlockEntity>> SIGN = Services.PLATFORM.register(Registries.BLOCK_ENTITY_TYPE, "sign",
-            () -> BlockEntityType.Builder.of(ModSignBlockEntity::new, ModBlocks.WOOD_SETS.stream()
+            () -> Services.PLATFORM.blockEntityType(ModSignBlockEntity::new, ModBlocks.WOOD_SETS.stream()
                     .flatMap(set -> java.util.stream.Stream.<Block>of(set.sign.get(), set.wallSign.get()))
-                    .toArray(Block[]::new)).build(null));
+                    .toArray(Block[]::new)));
 
-    @SuppressWarnings("DataFlowIssue")
     public static final RegistryEntry<BlockEntityType<ModHangingSignBlockEntity>> HANGING_SIGN = Services.PLATFORM.register(Registries.BLOCK_ENTITY_TYPE, "hanging_sign",
-            () -> BlockEntityType.Builder.of(ModHangingSignBlockEntity::new, ModBlocks.WOOD_SETS.stream()
+            () -> Services.PLATFORM.blockEntityType(ModHangingSignBlockEntity::new, ModBlocks.WOOD_SETS.stream()
                     .flatMap(set -> java.util.stream.Stream.<Block>of(set.hangingSign.get(), set.wallHangingSign.get()))
-                    .toArray(Block[]::new)).build(null));
+                    .toArray(Block[]::new)));
 
     /** Loads the class, which registers everything above. */
     public static void init() {

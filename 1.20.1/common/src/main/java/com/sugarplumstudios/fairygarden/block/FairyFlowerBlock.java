@@ -20,7 +20,7 @@ public class FairyFlowerBlock extends FlowerBlock {
 
     public FairyFlowerBlock(Supplier<MobEffect> stewEffect, int stewDuration, @Nullable Supplier<? extends ParticleOptions> particle,
                             int chance, Properties properties) {
-        super(stewEffect, stewDuration, properties);
+        super(stewEffect.get(), stewDuration, properties);
         this.particle = particle;
         this.chance = chance;
     }

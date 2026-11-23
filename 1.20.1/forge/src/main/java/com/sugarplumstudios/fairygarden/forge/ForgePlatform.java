@@ -1,5 +1,10 @@
 package com.sugarplumstudios.fairygarden.forge;
 
+import java.util.function.BiFunction;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import com.sugarplumstudios.fairygarden.FairyGarden;
 import com.sugarplumstudios.fairygarden.forge.block.ForgeShortPlantBlock;
 import com.sugarplumstudios.fairygarden.forge.block.ForgeStrippableLogBlock;
@@ -60,6 +65,22 @@ public final class ForgePlatform implements IPlatform {
                 key -> DeferredRegister.create(registry, FairyGarden.MOD_ID));
         RegistryObject<T> object = register.register(name, factory);
         return new RegistryEntry<>(object.getId(), object);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityType<T> blockEntityType(BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
+        //noinspection DataFlowIssue
+        return BlockEntityType.Builder.of(factory::apply, blocks).build(null);
+    }
+
+    @Override
+    public BlockSetType registerBlockSetType(BlockSetType type) {
+        return BlockSetType.register(type);
+    }
+
+    @Override
+    public WoodType registerWoodType(WoodType type) {
+        return WoodType.register(type);
     }
 
     @Override

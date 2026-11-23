@@ -26,7 +26,7 @@ public class MoonflowerBlock extends FlowerBlock {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
 
     public MoonflowerBlock(Supplier<MobEffect> stewEffect, int stewDuration, Properties properties) {
-        super(stewEffect, stewDuration, properties);
+        super(stewEffect.get(), stewDuration, properties);
         registerDefaultState(stateDefinition.any().setValue(OPEN, false));
     }
 

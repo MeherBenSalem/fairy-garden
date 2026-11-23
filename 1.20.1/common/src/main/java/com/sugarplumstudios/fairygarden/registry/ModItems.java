@@ -30,9 +30,9 @@ public final class ModItems {
 
     public static final FoodProperties STRAWBERRY_FOOD = new FoodProperties.Builder().nutrition(2).saturationMod(0.3F).fast().build();
     public static final FoodProperties SHORTCAKE_FOOD = new FoodProperties.Builder().nutrition(7).saturationMod(0.6F)
-            .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 600, 0), 1.0F).build();
+            .effect(new MobEffectInstance(MobEffects.ABSORPTION, 600, 0), 1.0F).build();
     public static final FoodProperties LAVENDER_TEA_FOOD = new FoodProperties.Builder().nutrition(2).saturationMod(0.4F).alwaysEat()
-            .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 200, 0), 1.0F).build();
+            .effect(new MobEffectInstance(MobEffects.REGENERATION, 200, 0), 1.0F).build();
 
     public static final RegistryEntry<ItemNameBlockItem> STRAWBERRY = register("strawberry",
             () -> new ItemNameBlockItem(ModBlocks.STRAWBERRY_BUSH.get(), new Item.Properties().food(STRAWBERRY_FOOD)));

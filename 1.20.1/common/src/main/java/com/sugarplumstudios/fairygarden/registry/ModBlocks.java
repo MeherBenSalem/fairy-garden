@@ -77,13 +77,13 @@ public final class ModBlocks {
 
     public static final RegistryEntry<SaplingBlock> BLOSSOM_SAPLING = register("blossom_sapling",
             () -> new SaplingBlock(new FairyTreeGrower(ModConfiguredFeatures.BLOSSOM_TREE, ModConfiguredFeatures.BLOSSOM_TREE_BEES),
-                    sapling(MapColor.COLOR_PINK, SoundType.CHERRY_SAPLING)));
+                    sapling(MapColor.COLOR_PINK, SoundType.CHERRY_SAPLING)) { });
     public static final RegistryEntry<SaplingBlock> SNOW_BLOSSOM_SAPLING = register("snow_blossom_sapling",
             () -> new SaplingBlock(new FairyTreeGrower(ModConfiguredFeatures.SNOW_BLOSSOM_TREE, null),
-                    sapling(MapColor.SNOW, SoundType.CHERRY_SAPLING)));
+                    sapling(MapColor.SNOW, SoundType.CHERRY_SAPLING)) { });
     public static final RegistryEntry<SaplingBlock> MOONWOOD_SAPLING = register("moonwood_sapling",
             () -> new SaplingBlock(new FairyTreeGrower(ModConfiguredFeatures.MOONWOOD_TREE, null),
-                    sapling(MapColor.COLOR_PURPLE, SoundType.GRASS).lightLevel(state -> 4)));
+                    sapling(MapColor.COLOR_PURPLE, SoundType.GRASS).lightLevel(state -> 4)) { });
 
     // ------------------------------------------------------------------ flowers
 
@@ -252,7 +252,7 @@ public final class ModBlocks {
 
     private static RegistryEntry<PinkPetalsBlock> petals(String name, MapColor color) {
         return register(name, () -> new PinkPetalsBlock(BlockBehaviour.Properties.of().mapColor(color).noCollission()
-                .sound(SoundType.PINK_PETALS).pushReaction(PushReaction.DESTROY)));
+                .sound(SoundType.PINK_PETALS).pushReaction(PushReaction.DESTROY)) { });
     }
 
     private static RegistryEntry<CarpetBlock> flowerCarpet(String name, MapColor color) {

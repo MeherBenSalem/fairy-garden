@@ -1,5 +1,15 @@
 package com.sugarplumstudios.fairygarden.fabric;
 
+import com.sugarplumstudios.fairygarden.fabric.mixin.WoodTypeInvoker;
+import com.sugarplumstudios.fairygarden.fabric.mixin.BlockSetTypeInvoker;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import java.util.function.BiFunction;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import com.sugarplumstudios.fairygarden.FairyGarden;
 import com.sugarplumstudios.fairygarden.block.ShortPlantBlock;
 import com.sugarplumstudios.fairygarden.block.StrippableLogBlock;
@@ -103,6 +113,21 @@ public final class FabricPlatform implements IPlatform {
             PENDING.computeIfAbsent(registry, key -> new ArrayList<>()).add(pending);
         }
         return new RegistryEntry<>(id, () -> pending.value);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityType<T> blockEntityType(BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
+        return FabricBlockEntityTypeBuilder.create(factory::apply, blocks).build();
+    }
+
+    @Override
+    public BlockSetType registerBlockSetType(BlockSetType type) {
+        return BlockSetTypeInvoker.fairygarden$register(type);
+    }
+
+    @Override
+    public WoodType registerWoodType(WoodType type) {
+        return WoodTypeInvoker.fairygarden$register(type);
     }
 
     @Override

@@ -13,11 +13,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 /** What Fairy Garden needs from the mod loader. One implementation per loader. */
@@ -30,6 +35,15 @@ public interface IPlatform {
     <R, T extends R> RegistryEntry<T> register(ResourceKey<? extends Registry<R>> registry, String name, Supplier<T> factory);
 
     CreativeModeTab.Builder creativeTab();
+
+    /** A block entity type for the given blocks. */
+    <T extends BlockEntity> BlockEntityType<T> blockEntityType(BiFunction<BlockPos, BlockState, T> factory, Block... blocks);
+
+    /** Adds a block set type to vanilla's list (doors, trapdoors, buttons and pressure plates read it). */
+    BlockSetType registerBlockSetType(BlockSetType type);
+
+    /** Adds a wood type to vanilla's list (signs and hanging signs read it). */
+    WoodType registerWoodType(WoodType type);
 
     /** A spawn egg for an entity type that may not be registered yet. */
     Item spawnEgg(Supplier<? extends EntityType<? extends Mob>> type, int background, int highlight, Item.Properties properties);

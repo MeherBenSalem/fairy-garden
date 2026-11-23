@@ -72,8 +72,8 @@ public final class WoodSet {
 
         planks = ModBlocks.register(name + "_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(planksColor)
                 .instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(sound).ignitedByLava()));
-        stairs = ModBlocks.register(name + "_stairs", () -> new StairBlock(() -> planks.get().defaultBlockState(),
-                BlockBehaviour.Properties.copy(planks.get())));
+        stairs = ModBlocks.register(name + "_stairs", () -> new StairBlock(planks.get().defaultBlockState(),
+                BlockBehaviour.Properties.copy(planks.get())) { });
         slab = ModBlocks.register(name + "_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(planks.get())));
         fence = ModBlocks.register(name + "_fence", () -> new FenceBlock(BlockBehaviour.Properties.of().mapColor(planksColor)
                 .forceSolidOn().instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(sound).ignitedByLava()));
@@ -81,15 +81,15 @@ public final class WoodSet {
                 .forceSolidOn().instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).ignitedByLava(), type));
         door = ModBlocks.register(name + "_door", () -> new DoorBlock(BlockBehaviour.Properties.of().mapColor(planksColor)
                 .instrument(NoteBlockInstrument.BASS).strength(3.0F).noOcclusion().ignitedByLava()
-                .pushReaction(PushReaction.DESTROY), type.setType()), block -> new DoubleHighBlockItem(block, new Item.Properties()));
+                .pushReaction(PushReaction.DESTROY), type.setType()) { }, block -> new DoubleHighBlockItem(block, new Item.Properties()));
         trapdoor = ModBlocks.register(name + "_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(planksColor)
                 .instrument(NoteBlockInstrument.BASS).strength(3.0F).noOcclusion()
-                .isValidSpawn((state, level, pos, entity) -> false).ignitedByLava(), type.setType()));
+                .isValidSpawn((state, level, pos, entity) -> false).ignitedByLava(), type.setType()) { });
         pressurePlate = ModBlocks.register(name + "_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
                 BlockBehaviour.Properties.of().mapColor(planksColor).forceSolidOn().instrument(NoteBlockInstrument.BASS)
-                        .noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY), type.setType()));
+                        .noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY), type.setType()) { });
         button = ModBlocks.register(name + "_button", () -> new ButtonBlock(BlockBehaviour.Properties.of().noCollission()
-                .strength(0.5F).pushReaction(PushReaction.DESTROY), type.setType(), 30, true));
+                .strength(0.5F).pushReaction(PushReaction.DESTROY), type.setType(), 30, true) { });
 
         sign = ModBlocks.registerNoItem(name + "_sign", () -> new ModStandingSignBlock(signProps(planksColor), type));
         wallSign = ModBlocks.registerNoItem(name + "_wall_sign", () -> new ModWallSignBlock(signProps(planksColor).dropsLike(sign.get()), type));
