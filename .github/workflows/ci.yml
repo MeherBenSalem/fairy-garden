@@ -72,7 +72,7 @@ jobs:
         run: |
           for a in TerraBlender-forge TerraBlender-fabric TerraBlender-neoforge; do
             echo "== $a"; curl -fsSL "https://maven.minecraftforge.net/com/github/glitchfiend/$a/maven-metadata.xml" \
-              | grep -o '<version>[^<]*</version>' | sed 's/<[^>]*>//g' | grep -E '^(1\.20\.1|1\.21\.1|26\.)' | tail -12 || true
+              | grep -o '<version>[^<]*</version>' | sed 's/<[^>]*>//g' | grep -E '^(1\.21\.1|26\.2)' | tr '\n' ' ' || true; echo
           done
       - name: Build all 8 jars
         run: |
@@ -166,6 +166,9 @@ jobs:
           # A fixed seed (the same one the server tests use) keeps the run repeatable. The self test searches for
           # each structure on the server thread, which can take more than the watchdog's 60 s on a slow runner.
           printf 'level-seed=fairygarden\nmax-tick-time=-1\nonline-mode=false\n' > forge/runs/selftest/server.properties
+          # In the Forge 1.20.1 dev environment the LAN advertiser loads a client-only class and the dedicated server stops.
+          mkdir -p forge/runs/selftest/defaultconfigs
+          printf '[server]\n\tadvertiseDedicatedServerToLan = false\n' > forge/runs/selftest/defaultconfigs/forge-server.toml
           ./gradlew :forge:runWorldgenTest --stacktrace -Porg.gradle.java.installations.fromEnv=JAVA_HOME_17_X64,JAVA_HOME_21_X64
       - name: Check the report
         working-directory: 1.20.1/forge/runs/selftest

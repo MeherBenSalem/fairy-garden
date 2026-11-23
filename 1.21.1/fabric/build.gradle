@@ -11,9 +11,14 @@ dependencies {
     }
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    // TerraBlender places the biomes in the Overworld (required at runtime too).
+    modImplementation "com.github.glitchfiend:TerraBlender-fabric:${terrablender_fabric_version}"
 }
 
 loom {
+    mixin {
+        defaultRefmapName = "${mod_id}.refmap.json"
+    }
     runs {
         client {
             client()

@@ -15,12 +15,26 @@ java {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+// Show every compile error, not only the first 100 (GitHub CI is the compiler for most targets).
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.addAll(['-Xmaxerrs', '10000'])
+}
 tasks.withType(Javadoc).configureEach {
     options.encoding = 'UTF-8'
 }
 
 repositories {
     mavenCentral()
+    // TerraBlender is published to the Forge maven.
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'MinecraftForge'
+                url = 'https://maven.minecraftforge.net/'
+            }
+        }
+        filter { includeGroup('com.github.glitchfiend') }
+    }
     // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
     exclusiveContent {
         forRepository {
@@ -87,6 +101,8 @@ jar {
 }
 
 processResources {
+    // The datagen cache is not part of the mod.
+    exclude '.cache'
     filteringCharset = 'UTF-8'
     var expandProps = [
             'version'                      : version,
@@ -103,7 +119,9 @@ processResources {
             'neoforge_version'             : neoforge_version,
             'neoforge_loader_version_range': neoforge_loader_version_range,
             'credits'                      : credits,
-            'java_version'                 : java_version
+            'java_version'                 : java_version,
+            'terrablender_version_range'   : terrablender_version_range,
+            'terrablender_fabric_min'      : terrablender_fabric_min
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

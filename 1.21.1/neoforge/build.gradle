@@ -29,3 +29,7 @@ neoForge {
         }
     }
 }
+
+dependencies {
+    implementation "com.github.glitchfiend:TerraBlender-neoforge:${terrablender_neoforge_version}"
+}

@@ -116,5 +116,6 @@ grep -q "FAIRY_SMOKE_SUMMONED" "$LOG" || { echo "The entities were not summoned"
 if grep -q "FAIRY_SMOKE_MISSING" "$LOG"; then grep "FAIRY_SMOKE_MISSING" "$LOG"; echo "A biome or structure was not found"; exit 1; fi
 found=$(grep -c "FAIRY_SMOKE_FOUND" "$LOG")
 [ "$found" -ge "$NTARGETS" ] || { echo "Only $found of $NTARGETS biomes and structures were located"; exit 1; }
-if grep -E "ERROR|Exception|Caused by" "$LOG" | grep -q -E 'com.sugarplumstudios|fairygarden([^-.a-z]|$)'; then echo "The log has errors naming Fairy Garden"; exit 1; fi
+# "No data fixer registered for <entity>" is vanilla's development-only notice for every modded entity type.
+if grep -E "ERROR|Exception|Caused by" "$LOG" | grep -v "No data fixer registered" | grep -q -E 'com.sugarplumstudios|fairygarden([^-.a-z]|$)'; then echo "The log has errors naming Fairy Garden"; exit 1; fi
 echo "Server smoke test passed ($VERSION $LOADER): $COUNT blocks, 2 entities, 5 biomes and 4 structures"

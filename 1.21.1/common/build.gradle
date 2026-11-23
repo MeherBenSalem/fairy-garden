@@ -16,6 +16,9 @@ dependencies {
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
 }
 
+// Data converted from the 1.20.1 data generators (tools/port_data.py).
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
 configurations {
     commonJava {
         canBeResolved = false
@@ -29,5 +32,5 @@ configurations {
 
 artifacts {
     commonJava sourceSets.main.java.sourceDirectories.singleFile
-    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+    sourceSets.main.resources.sourceDirectories.each { commonResources it }
 }
