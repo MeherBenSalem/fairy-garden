@@ -15,7 +15,7 @@ import java.util.function.DoubleUnaryOperator;
  *
  * <pre>
  *   java tools/audiogen/AudioGenerator.java build/audio
- *   java tools/audiogen/AudioGenerator.java build/audio --ogg src/main/resources/assets/fairygarden/sounds
+ *   java tools/audiogen/AudioGenerator.java build/audio --ogg 1.20.1/common/src/main/resources/assets/fairygarden/sounds
  * </pre>
  *
  * With {@code --ogg <soundsDir>} every WAV is encoded to mono Ogg Vorbis with ffmpeg (the FFMPEG environment

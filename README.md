@@ -2,11 +2,25 @@
 
 ![Blossom Valley](docs/screenshots/blossom_valley_day.png)
 
-*A Sugarplum Studios mod for Minecraft Java 1.20.1 (Forge 47.x) · requires [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) 3.0.1+*
+*A Sugarplum Studios mod for Minecraft Java 1.20.1 (Fabric, Forge), 1.21.1, 26.2 and 26.3 (Fabric, NeoForge) · requires [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender)*
 
 Fairy Garden makes exploring more magical: five pastel fantasy biomes full of blossom trees, lavender
 rows, strawberry patches, glowing moonlit plants, giant flowers, crystal outcrops and enchanted ponds,
 with tiny magical creatures, drifting petals and fairy sparkles, hidden structures and treasure.
+
+---
+
+## Which jar do I download?
+
+Jar names are `fairygarden-{loader}-{minecraft}-{modVersion}.jar`. Match **both** the Minecraft version and the
+loader, and install the TerraBlender build for the same Minecraft version and loader.
+
+| Minecraft | Java | Fabric jar (needs Fabric API + TerraBlender) | NeoForge / Forge jar (needs TerraBlender) |
+|-----------|------|-----------------------------------------------|-------------------------------------------|
+| 1.20.1 | 17+ | `…-fabric-1.20.1-….jar` | `…-forge-1.20.1-….jar` (Forge 47) |
+| 1.21.1 | 21+ | `…-fabric-1.21.1-….jar` | `…-neoforge-1.21.1-….jar` |
+| 26.2 | 25+ | `…-fabric-26.2-….jar` | `…-neoforge-26.2-….jar` |
+| 26.3 | 25+ | `…-fabric-26.3-….jar` | `…-neoforge-26.3-….jar` |
 
 ---
 
@@ -135,12 +149,12 @@ Structure frequency is data-driven (`data/fairygarden/worldgen/structure_set/*.j
 a datapack. The ground tolerance is `max_height_difference` in `data/fairygarden/worldgen/structure/*.json`.
 
 ## Finding the biomes and testing the features
-**Guided tour (development client):** `gradlew runClient -Pshowcase` creates a new world called *Fairy Garden
+**Guided tour (development client):** `cd 1.20.1 && ./gradlew :forge:runClient -Pshowcase` creates a new world called *Fairy Garden
 Showcase*. A camera then circles every biome (Moonlight Forest and Fairy Glade by night too) and every
 structure, showing a caption and a few notes at each stop. That takes about 3 minutes. At the end you land in
 Creative beside the last structure, and the world is yours to play in. During the tour, Sneak skips a stop, Esc
 (or any open screen) pauses it, and leaving the world ends it. Each stop is also saved as
-`run/screenshots/showcase_*.png`. Each run makes a new world; earlier showcase worlds stay in the Singleplayer
+`1.20.1/forge/runs/client/screenshots/showcase_*.png`. Each run makes a new world; earlier showcase worlds stay in the Singleplayer
 list.
 
 To explore on your own instead, create a **new world** (existing chunks don't change). With cheats on:
@@ -178,24 +192,60 @@ the server; particles, ambient sounds and rendering are client-side only.
 ---
 
 ## Building from source
+
+Each Minecraft version is a separate MultiLoader Gradle workspace with its own wrapper. These are the only supported
+targets (the NightBeam convention): 8 jars per release, all with the same version.
+
+| Minecraft | Loaders | Java | Folder |
+| --- | --- | --- | --- |
+| 1.20.1 | Forge, Fabric | 17 bytecode (build on 21) | `1.20.1/{common,forge,fabric}` |
+| 1.21.1 | NeoForge, Fabric | 21 | `1.21.1/{common,neoforge,fabric}` |
+| 26.2 | NeoForge, Fabric | 25 | `26.2/{common,neoforge,fabric}` |
+| 26.3 | NeoForge, Fabric | 25 | `26.3/{common,neoforge,fabric}` |
+
+```bash
+./gradlew buildAll             # every workspace, then the 8 loader jars into releases/
+cd 1.20.1 && ./gradlew build   # Gradle on Java 21 (Java 17 toolchain)
+cd 1.21.1 && ./gradlew build   # Java 21
+cd 26.3 && ./gradlew build     # Java 25 (the same for 26.2)
 ```
-python tools/generate_textures.py         # paints every texture into src/main/resources
-java tools/audiogen/AudioGenerator.java build/audio --ogg src/main/resources/assets/fairygarden/sounds   # synthesizes every sound (needs ffmpeg)
-gradlew runData                            # models, blockstates, lang, loot, recipes, tags, worldgen, structures
-gradlew build                              # -> build/libs/fairygarden-forge-1.20.1-1.0.0.jar
+
+The root build hands the 26.x workspaces `JAVA_HOME_25_X64` (or `-Pjava25Home=<jdk>`) and the others
+`JAVA_HOME_21_X64` (or `-Pjava21Home=<jdk>`); without them each workspace uses the current `JAVA_HOME`.
+Jars land in `<workspace>/<loader>/build/libs/fairygarden-<loader>-<minecraft>-<version>.jar`. Every workspace's
+`gradle.properties` carries the same `version=` (`./gradlew checkVersions`; set it with
+`./gradlew syncVersion -PmodVersion=x.y.z`). `python3 scripts/check_targets.py workspaces` checks the targets, the
+shared version and the metadata ranges.
+
+The 1.20.1 workspace holds the canonical resources; the other workspaces get them converted:
+
+```bash
+python tools/generate_textures.py         # paints every texture into 1.20.1/common/src/main/resources
+java tools/audiogen/AudioGenerator.java build/audio --ogg 1.20.1/common/src/main/resources/assets/fairygarden/sounds   # synthesizes every sound (needs ffmpeg)
+cd 1.20.1 && ./gradlew :forge:runData     # models, blockstates, lang, loot, recipes, tags, worldgen, structures
+python tools/port_data.py                 # converts them for 1.21.1, 26.2 and 26.3 (--check: only verify)
 ```
-`gradlew runWorldgenTest` starts a headless server on a fresh world (`run/saves/selftest`, seed
-`fairygarden`), finds every Fairy Garden biome and structure, generates the chunks there, counts the Fairy
-Garden blocks actually placed, counts how many of each structure generate in an 8192×8192-block area (and how
-many candidates were skipped for steep or flooded ground), renders a biome map of the same area
-(`run/fairygarden-biome-map.png`), writes `run/fairygarden-selftest.txt` and stops. It ends with `RESULT: PASS`
+
+| Command | What it does |
+|---|---|
+| `cd 1.20.1 && ./gradlew :forge:runGameTestServer` | Runs the automated in-game tests and exits (non-zero on failure). |
+| `cd 1.20.1 && ./gradlew :forge:runWorldgenTest` | The world generation self test below. |
+| `cd 1.20.1 && ./gradlew :forge:runSnapshots` | The client snapshot tour below. |
+| `scripts/server-smoke-test.sh <version> <loader>` | Starts that workspace's dev server, places every block, summons both creatures and locates every biome and structure. |
+| `scripts/server-boot-test.sh <forge 1.20.1 jar>` | Boots a real Forge 1.20.1 server with a built jar and generates every biome and structure. |
+
+`./gradlew :forge:runWorldgenTest` (in `1.20.1/`) starts a headless server on a fresh world
+(`forge/runs/selftest`, seed `fairygarden`), finds every Fairy Garden biome and structure, generates the chunks
+there, counts the Fairy Garden blocks actually placed, counts how many of each structure generate in an
+8192×8192-block area (and how many candidates were skipped for steep or flooded ground), renders a biome map of the
+same area (`fairygarden-biome-map.png`), writes `fairygarden-selftest.txt` and stops. It ends with `RESULT: PASS`
 or `RESULT: FAIL`. The previous self-test and snapshot worlds are deleted at the start of each run.
 
-`gradlew runSnapshots` opens the client, creates a throwaway world, flies to every biome and structure,
-builds a gallery of every block, shows every item in the inventory and saves screenshots to
-`run/screenshots/`, then quits. For each structure it tries several camera spots and keeps the one with the
-clearest view; the structure pictures above come from it. The snapshot and showcase tools (`client/dev`) are
-left out of the jar.
+`./gradlew :forge:runSnapshots` (in `1.20.1/`) opens the client, creates a throwaway world, flies to every biome
+and structure, builds a gallery of every block, shows every item in the inventory and saves screenshots to
+`forge/runs/snapshots/screenshots/`, then quits. For each structure it tries several camera spots and keeps the one
+with the clearest view; the structure pictures above come from it. The snapshot and showcase tools (`client/dev`)
+are left out of the jar.
 
 ### Last verification (seed `fairygarden`, default config)
 | Check | Result |
@@ -211,3 +261,23 @@ left out of the jar.
 | Dedicated server | starts and generates with no client-only class errors |
 
 ![Biome map](docs/screenshots/biome_map.png)
+
+## Releasing
+
+CI (`.github/workflows/ci.yml`) builds all 8 jars on every push to `main`, runs the GameTests and the world
+generation self test, boots a Forge server with the built jar, starts a dev server for every target that places
+every block and locates every biome and structure, and launches a 1.20.1 Forge client that screenshots every biome
+and structure. Publishing to Modrinth and CurseForge is `.github/workflows/publish.yml`, run by hand (`version`,
+`dry_run`) or by a `v*.*.*` tag; it never runs on a plain push. It refuses a second release of the mod on the same
+day (Africa/Tunis), takes the jars from `releases/`, the GitHub Release or a build from source, and fails unless
+exactly the 8 jars are found. It needs the secrets `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `CURSEFORGE_API_KEY` and
+the variables `MODRINTH_ID`, `CURSEFORGE_ID`; until both variables are set it stops before building, dry runs
+included. `release/1.0.0/` keeps the notes of the original Forge-only 1.0.0 build.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Security
+
+See [.github/SECURITY.md](.github/SECURITY.md).

@@ -5,7 +5,7 @@
 
 Everything is painted procedurally from code, deterministically, so re-running gives identical files.
 Vanilla textures are only read (from the Gradle cache) as UV-layout masks for boats and signs.
-Run it before `gradlew runData`, which validates that every referenced texture exists.
+Run it before `cd 1.20.1 && ./gradlew :forge:runData`, which validates that every referenced texture exists.
 """
 import shutil
 import sys

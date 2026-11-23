@@ -7,7 +7,8 @@ from pathlib import Path
 
 MODID = "fairygarden"
 ROOT = Path(__file__).resolve().parents[2]
-RES = ROOT / "src" / "main" / "resources"
+# The canonical resources live in the 1.20.1 workspace; tools/port_data.py copies them to the others.
+RES = ROOT / "1.20.1" / "common" / "src" / "main" / "resources"
 TEX = RES / "assets" / MODID / "textures"
 
 

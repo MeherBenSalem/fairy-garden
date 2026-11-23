@@ -114,10 +114,10 @@ public final class WoodSet {
 
         // Entity types are registered before items on both loaders; the entity reads its item when it is broken.
         boatEntity = Services.PLATFORM.register(Registries.ENTITY_TYPE, name + "_boat", () -> EntityType.Builder.<Boat>of(
-                        (entityType, level) -> new Boat(entityType, level, () -> this.boat.get()), MobCategory.MISC)
+                        (entityType, level) -> new Boat(entityType, level, this::boatItem), MobCategory.MISC)
                 .noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F).clientTrackingRange(10).build(Keys.entity()));
         chestBoatEntity = Services.PLATFORM.register(Registries.ENTITY_TYPE, name + "_chest_boat", () -> EntityType.Builder.<ChestBoat>of(
-                        (entityType, level) -> new ChestBoat(entityType, level, () -> this.chestBoat.get()), MobCategory.MISC)
+                        (entityType, level) -> new ChestBoat(entityType, level, this::chestBoatItem), MobCategory.MISC)
                 .noLootTable().sized(1.375F, 0.5625F).eyeHeight(0.5625F).clientTrackingRange(10).build(Keys.entity()));
         boat = ModItems.registerBlockItem(name + "_boat", () -> new BoatItem(boatEntity.get(), Keys.itemProps().stacksTo(1)));
         chestBoat = ModItems.registerBlockItem(name + "_chest_boat", () -> new BoatItem(chestBoatEntity.get(), Keys.itemProps().stacksTo(1)));
@@ -132,5 +132,14 @@ public final class WoodSet {
     private static BlockBehaviour.Properties signProps(MapColor color) {
         return Keys.blockProps().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS)
                 .noCollision().strength(1.0F).ignitedByLava();
+    }
+
+    // Read through methods: the entity factories run long after the constructor, once the items exist.
+    private Item boatItem() {
+        return boat.get();
+    }
+
+    private Item chestBoatItem() {
+        return chestBoat.get();
     }
 }
