@@ -1,0 +1,7 @@
+{
+  "parent": "fairygarden:block/emissive_cross",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "cross": "fairygarden:block/moonwood_sapling"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "condition": {
+            "type": "minecraft:match_block",
+            "blocks": "fairygarden:tall_lavender",
+            "state": {
+              "half": "lower"
+            }
+          },
+          "name": "fairygarden:tall_lavender"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "fairygarden:blocks/tall_lavender"
+}

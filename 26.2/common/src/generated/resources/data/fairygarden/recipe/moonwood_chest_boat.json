@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "chest_boat",
+  "ingredients": [
+    "minecraft:chest",
+    "fairygarden:moonwood_boat"
+  ],
+  "result": {
+    "id": "fairygarden:moonwood_chest_boat"
+  }
+}

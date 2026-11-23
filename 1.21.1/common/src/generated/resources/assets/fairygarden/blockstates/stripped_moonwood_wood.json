@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "fairygarden:block/stripped_moonwood_wood_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "fairygarden:block/stripped_moonwood_wood"
+    },
+    "axis=z": {
+      "model": "fairygarden:block/stripped_moonwood_wood_horizontal",
+      "x": 90
+    }
+  }
+}

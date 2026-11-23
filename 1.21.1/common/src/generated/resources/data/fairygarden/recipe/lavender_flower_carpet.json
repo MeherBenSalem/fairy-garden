@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fairygarden:lavender"
+    },
+    {
+      "item": "fairygarden:lavender"
+    },
+    {
+      "item": "minecraft:moss_carpet"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "fairygarden:lavender_flower_carpet"
+  }
+}

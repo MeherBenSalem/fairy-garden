@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "fairygarden:block/tall_lavender_bottom"
+    },
+    "half=upper": {
+      "model": "fairygarden:block/tall_lavender_top"
+    }
+  }
+}

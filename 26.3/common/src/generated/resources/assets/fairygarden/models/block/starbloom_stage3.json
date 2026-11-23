@@ -1,0 +1,6 @@
+{
+  "parent": "fairygarden:block/emissive_crop",
+  "textures": {
+    "crop": "fairygarden:block/starbloom_stage3"
+  }
+}

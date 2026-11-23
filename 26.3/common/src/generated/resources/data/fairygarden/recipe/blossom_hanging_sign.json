@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "hanging_sign",
+  "key": {
+    "#": "fairygarden:stripped_blossom_log",
+    "X": "minecraft:iron_chain"
+  },
+  "pattern": [
+    "X X",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "fairygarden:blossom_hanging_sign"
+  },
+  "show_notification": true
+}

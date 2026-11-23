@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 71249953,
+    "separation": 6,
+    "spacing": 17
+  },
+  "structures": [
+    {
+      "structure": "fairygarden:hidden_fairy_garden",
+      "weight": 1
+    }
+  ]
+}

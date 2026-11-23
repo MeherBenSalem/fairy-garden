@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "fairygarden:block/lavender_giant_petals"
+  }
+}

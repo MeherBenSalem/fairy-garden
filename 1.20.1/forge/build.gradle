@@ -58,8 +58,8 @@ legacyForge {
             data()
             gameDirectory = project.file('runs/data')
             programArguments.addAll('--mod', mod_id, '--all',
-                    '--output', project(':common').file('src/generated/resources/').absolutePath,
-                    '--existing', project(':common').file('src/main/resources/').absolutePath)
+                    '--output', rootProject.file('common/src/generated/resources/').absolutePath,
+                    '--existing', rootProject.file('common/src/main/resources/').absolutePath)
         }
     }
 

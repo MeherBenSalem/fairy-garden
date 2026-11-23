@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fairygarden:bluebell"
+    },
+    {
+      "item": "fairygarden:bluebell"
+    },
+    {
+      "item": "minecraft:moss_carpet"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "fairygarden:blue_flower_carpet"
+  }
+}

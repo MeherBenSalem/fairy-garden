@@ -1,0 +1,40 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "entered": {
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "location": {
+              "biomes": "fairygarden:lavender_fields"
+            }
+          }
+        }
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.lavender_fields.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:lavender"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.lavender_fields.title"
+    }
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

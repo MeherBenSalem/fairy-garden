@@ -1,0 +1,7 @@
+{
+  "parent": "fairygarden:block/template_glimmer_lily",
+  "textures": {
+    "flower": "fairygarden:block/glimmer_lily_flower",
+    "pad": "fairygarden:block/glimmer_lily"
+  }
+}

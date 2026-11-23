@@ -1,0 +1,38 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "has_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:fairy_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.fairy_dust.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:fairy_dust"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.fairy_dust.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

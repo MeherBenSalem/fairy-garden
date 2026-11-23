@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "fairygarden:block/lavender_bale_top",
+    "side": "fairygarden:block/lavender_bale_side"
+  }
+}

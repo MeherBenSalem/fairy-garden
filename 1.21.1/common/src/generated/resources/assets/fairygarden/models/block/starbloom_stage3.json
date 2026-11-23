@@ -1,0 +1,7 @@
+{
+  "parent": "fairygarden:block/emissive_crop",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "crop": "fairygarden:block/starbloom_stage3"
+  }
+}

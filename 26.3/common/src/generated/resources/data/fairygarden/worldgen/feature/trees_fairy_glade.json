@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:random_selector",
+  "default": "fairygarden:small_blossom_checked",
+  "features": [
+    {
+      "chance": 0.3,
+      "feature": "fairygarden:snow_blossom_checked"
+    },
+    {
+      "chance": 0.25,
+      "feature": "fairygarden:moonwood_checked"
+    }
+  ]
+}

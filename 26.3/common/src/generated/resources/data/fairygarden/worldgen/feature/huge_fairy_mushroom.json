@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:huge_red_mushroom",
+  "cap_provider": {
+    "id": "fairygarden:fairy_mushroom_block",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "true",
+      "west": "true"
+    }
+  },
+  "foliage_radius": 2,
+  "stem_provider": {
+    "id": "minecraft:mushroom_stem",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "false",
+      "west": "true"
+    }
+  }
+}

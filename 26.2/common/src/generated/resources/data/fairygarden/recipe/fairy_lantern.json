@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "fairygarden:fairy_dust",
+    "N": "minecraft:gold_nugget"
+  },
+  "pattern": [
+    "NNN",
+    "NCN",
+    "NNN"
+  ],
+  "result": {
+    "id": "fairygarden:fairy_lantern"
+  },
+  "show_notification": true
+}

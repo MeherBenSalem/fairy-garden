@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fairygarden:cream_buttercup"
+          },
+          "weight": 4
+        },
+        {
+          "data": {
+            "Name": "fairygarden:rosy_daisy"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "fairygarden:mint_posy"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "fairygarden:starflower"
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

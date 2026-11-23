@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "item": "fairygarden:cream_buttercup"
+    },
+    {
+      "item": "fairygarden:cream_buttercup"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result": {
+    "id": "fairygarden:giant_flower_pistil"
+  }
+}

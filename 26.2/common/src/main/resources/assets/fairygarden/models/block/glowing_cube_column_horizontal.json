@@ -1,0 +1,87 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "#side"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#end",
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#end",
+          "cullface": "up",
+          "rotation": 180
+        },
+        "north": {
+          "texture": "#side",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#side",
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#side",
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#side",
+          "cullface": "east"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#overlay_end",
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#overlay_end",
+          "cullface": "up",
+          "rotation": 180
+        },
+        "north": {
+          "texture": "#overlay",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#overlay",
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#overlay",
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#overlay",
+          "cullface": "east"
+        }
+      },
+      "light_emission": 15
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fairygarden:lavender"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "fairygarden:tall_lavender",
+            "Properties": {
+              "half": "lower"
+            }
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

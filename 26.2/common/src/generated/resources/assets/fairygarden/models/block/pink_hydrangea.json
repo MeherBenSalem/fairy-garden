@@ -1,0 +1,7 @@
+{
+  "parent": "fairygarden:block/flowering_bush",
+  "textures": {
+    "side": "fairygarden:block/pink_hydrangea",
+    "top": "fairygarden:block/pink_hydrangea_top"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_starflower": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:starflower"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": [
+          "fairygarden:white_dye_from_starflower"
+        ]
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_starflower",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fairygarden:white_dye_from_starflower"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "fairygarden:block/fairy_foxglove_bottom"
+  }
+}

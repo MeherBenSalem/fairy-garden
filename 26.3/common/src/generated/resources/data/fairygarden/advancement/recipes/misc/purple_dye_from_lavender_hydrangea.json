@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lavender_hydrangea": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:lavender_hydrangea"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": [
+          "fairygarden:purple_dye_from_lavender_hydrangea"
+        ]
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_lavender_hydrangea",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fairygarden:purple_dye_from_lavender_hydrangea"
+    ]
+  },
+  "sends_telemetry_event": false
+}

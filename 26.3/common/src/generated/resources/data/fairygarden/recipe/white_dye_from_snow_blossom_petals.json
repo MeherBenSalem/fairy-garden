@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "white_dye",
+  "ingredients": [
+    "fairygarden:snow_blossom_petals"
+  ],
+  "result": {
+    "id": "minecraft:white_dye"
+  }
+}

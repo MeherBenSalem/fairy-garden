@@ -1,0 +1,6 @@
+{
+  "parent": "fairygarden:block/flower_carpet",
+  "textures": {
+    "carpet": "fairygarden:block/pink_flower_carpet"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "blossom_valley": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:blossom_valley"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "fairy_glade": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:fairy_glade"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "lavender_fields": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:lavender_fields"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "moonlight_forest": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:moonlight_forest"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "strawberry_meadow": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:strawberry_meadow"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.fairygarden.all_biomes.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:fairy_foxglove"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.all_biomes.title"
+    }
+  },
+  "requirements": [
+    [
+      "blossom_valley"
+    ],
+    [
+      "lavender_fields"
+    ],
+    [
+      "strawberry_meadow"
+    ],
+    [
+      "moonlight_forest"
+    ],
+    [
+      "fairy_glade"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

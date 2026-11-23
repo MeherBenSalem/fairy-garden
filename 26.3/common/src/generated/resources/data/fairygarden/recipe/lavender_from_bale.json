@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fairygarden:lavender_bale"
+  ],
+  "result": {
+    "count": 9,
+    "id": "fairygarden:lavender"
+  }
+}

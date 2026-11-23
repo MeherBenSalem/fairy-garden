@@ -1,0 +1,6 @@
+{
+  "type": "fairygarden:fairy_ring",
+  "to_place": {
+    "id": "fairygarden:fairy_mushroom"
+  }
+}

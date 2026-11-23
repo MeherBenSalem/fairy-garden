@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "fairygarden:block/fairy_foxglove_bottom"
+    },
+    "half=upper": {
+      "model": "fairygarden:block/fairy_foxglove_top"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/flowerbed_1",
+  "textures": {
+    "flowerbed": "fairygarden:block/blossom_petals",
+    "stem": "fairygarden:block/blossom_petals_stem"
+  }
+}

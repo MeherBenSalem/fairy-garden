@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fairygarden:mint_posy",
+    "fairygarden:mint_posy",
+    "minecraft:moss_carpet"
+  ],
+  "result": {
+    "count": 4,
+    "id": "fairygarden:mint_flower_carpet"
+  }
+}

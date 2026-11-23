@@ -1,0 +1,7 @@
+{
+  "parent": "fairygarden:block/glowing_leaves",
+  "textures": {
+    "all": "fairygarden:block/moonwood_leaves",
+    "overlay": "fairygarden:block/moonwood_leaves_glow"
+  }
+}

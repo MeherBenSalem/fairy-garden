@@ -1,0 +1,42 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "found": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "fairygarden:hidden_fairy_garden"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.fairygarden.hidden_fairy_garden.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:fairy_lantern"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.hidden_fairy_garden.title"
+    }
+  },
+  "requirements": [
+    [
+      "found"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

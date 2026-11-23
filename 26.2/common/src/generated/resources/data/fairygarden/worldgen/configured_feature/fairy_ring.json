@@ -1,0 +1,11 @@
+{
+  "type": "fairygarden:fairy_ring",
+  "config": {
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "fairygarden:fairy_mushroom"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "sign",
+  "key": {
+    "#": "fairygarden:blossom_planks",
+    "X": "minecraft:stick"
+  },
+  "pattern": [
+    "###",
+    "###",
+    " X "
+  ],
+  "result": {
+    "count": 3,
+    "id": "fairygarden:blossom_sign"
+  },
+  "show_notification": true
+}

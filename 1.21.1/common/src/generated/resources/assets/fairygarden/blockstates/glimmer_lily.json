@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "fairygarden:block/glimmer_lily"
+      },
+      {
+        "model": "fairygarden:block/glimmer_lily",
+        "y": 90
+      },
+      {
+        "model": "fairygarden:block/glimmer_lily",
+        "y": 180
+      },
+      {
+        "model": "fairygarden:block/glimmer_lily",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fairygarden:lavender_flower_carpet"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "fairygarden:blue_flower_carpet"
+          },
+          "weight": 1
+        }
+      ]
+    }
+  }
+}

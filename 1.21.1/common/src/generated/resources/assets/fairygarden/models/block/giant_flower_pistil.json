@@ -1,0 +1,6 @@
+{
+  "parent": "fairygarden:block/emissive_cube_all",
+  "textures": {
+    "all": "fairygarden:block/giant_flower_pistil"
+  }
+}

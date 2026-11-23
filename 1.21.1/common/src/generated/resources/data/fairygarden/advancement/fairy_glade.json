@@ -1,0 +1,42 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "entered": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:fairy_glade"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.fairy_glade.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:crystal_flower"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.fairy_glade.title"
+    }
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

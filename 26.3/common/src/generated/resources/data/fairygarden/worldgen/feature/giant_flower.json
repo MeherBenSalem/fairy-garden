@@ -1,0 +1,46 @@
+{
+  "type": "fairygarden:giant_flower",
+  "height": {
+    "type": "minecraft:uniform",
+    "max_inclusive": 8,
+    "min_inclusive": 4
+  },
+  "petals": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "data": {
+          "id": "fairygarden:pink_giant_petals"
+        },
+        "weight": 3
+      },
+      {
+        "data": {
+          "id": "fairygarden:lavender_giant_petals"
+        },
+        "weight": 3
+      },
+      {
+        "data": {
+          "id": "fairygarden:blue_giant_petals"
+        },
+        "weight": 2
+      },
+      {
+        "data": {
+          "id": "fairygarden:cream_giant_petals"
+        },
+        "weight": 2
+      }
+    ]
+  },
+  "pistil": {
+    "id": "fairygarden:giant_flower_pistil"
+  },
+  "stem": {
+    "id": "fairygarden:giant_flower_stem",
+    "properties": {
+      "axis": "y"
+    }
+  }
+}

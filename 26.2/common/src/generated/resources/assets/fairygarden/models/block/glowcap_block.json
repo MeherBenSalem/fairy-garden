@@ -1,0 +1,6 @@
+{
+  "parent": "fairygarden:block/emissive_single_face",
+  "textures": {
+    "texture": "fairygarden:block/glowcap_block"
+  }
+}

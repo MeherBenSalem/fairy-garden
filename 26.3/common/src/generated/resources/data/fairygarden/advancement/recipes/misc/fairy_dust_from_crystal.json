@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_crystal_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:crystal_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": [
+          "fairygarden:fairy_dust_from_crystal"
+        ]
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_crystal_shard",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fairygarden:fairy_dust_from_crystal"
+    ]
+  },
+  "sends_telemetry_event": false
+}

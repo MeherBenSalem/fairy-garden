@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": "#fairygarden:fairy_flowers",
+    "S": "minecraft:string"
+  },
+  "pattern": [
+    "FSF",
+    "F F"
+  ],
+  "result": {
+    "id": "fairygarden:flower_crown"
+  },
+  "show_notification": true
+}

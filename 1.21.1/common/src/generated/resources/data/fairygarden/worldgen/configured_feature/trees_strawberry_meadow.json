@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "fairygarden:small_blossom_checked",
+    "features": [
+      {
+        "chance": 0.25,
+        "feature": "fairygarden:blossom_bees_checked"
+      },
+      {
+        "chance": 0.2,
+        "feature": "fairygarden:snow_blossom_checked"
+      }
+    ]
+  }
+}

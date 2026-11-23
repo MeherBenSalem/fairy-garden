@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_single_face",
+  "textures": {
+    "texture": "fairygarden:block/fairy_mushroom_block"
+  }
+}

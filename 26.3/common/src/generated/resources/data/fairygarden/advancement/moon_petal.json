@@ -1,0 +1,38 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "has_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:moon_petal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.moon_petal.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:moon_petal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.moon_petal.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

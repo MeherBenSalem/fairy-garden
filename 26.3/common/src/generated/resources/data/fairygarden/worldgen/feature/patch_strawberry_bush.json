@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:simple_block",
+  "to_place": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "data": {
+          "id": "fairygarden:strawberry_bush",
+          "properties": {
+            "age": "1"
+          }
+        },
+        "weight": 1
+      },
+      {
+        "data": {
+          "id": "fairygarden:strawberry_bush",
+          "properties": {
+            "age": "2"
+          }
+        },
+        "weight": 2
+      },
+      {
+        "data": {
+          "id": "fairygarden:strawberry_bush",
+          "properties": {
+            "age": "3"
+          }
+        },
+        "weight": 3
+      }
+    ]
+  }
+}

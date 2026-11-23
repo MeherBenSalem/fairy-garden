@@ -1,0 +1,38 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "has_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:flower_crown"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.flower_crown.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:flower_crown"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.flower_crown.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

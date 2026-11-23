@@ -1,0 +1,8 @@
+{
+  "parent": "fairygarden:block/glowing_leaves",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "all": "fairygarden:block/moonwood_leaves",
+    "overlay": "fairygarden:block/moonwood_leaves_glow"
+  }
+}

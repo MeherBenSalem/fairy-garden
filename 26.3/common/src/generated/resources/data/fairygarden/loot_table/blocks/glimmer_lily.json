@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fairygarden:glimmer_lily"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "fairygarden:blocks/glimmer_lily"
+}

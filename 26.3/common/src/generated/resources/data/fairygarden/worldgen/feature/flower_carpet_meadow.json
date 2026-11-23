@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:simple_block",
+  "to_place": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "data": {
+          "id": "fairygarden:cream_flower_carpet"
+        },
+        "weight": 3
+      },
+      {
+        "data": {
+          "id": "fairygarden:pink_flower_carpet"
+        },
+        "weight": 2
+      },
+      {
+        "data": {
+          "id": "fairygarden:mint_flower_carpet"
+        },
+        "weight": 2
+      }
+    ]
+  }
+}

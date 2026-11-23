@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "fairygarden:block/moonflower"
+    },
+    "open=true": {
+      "model": "fairygarden:block/moonflower_open"
+    }
+  }
+}

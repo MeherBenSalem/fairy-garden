@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fairygarden:cream_buttercup",
+    "fairygarden:cream_buttercup",
+    "minecraft:moss_carpet"
+  ],
+  "result": {
+    "count": 4,
+    "id": "fairygarden:cream_flower_carpet"
+  }
+}

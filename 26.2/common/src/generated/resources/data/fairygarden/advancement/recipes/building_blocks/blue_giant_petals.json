@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bluebell": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:bluebell"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fairygarden:blue_giant_petals"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_bluebell",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fairygarden:blue_giant_petals"
+    ]
+  },
+  "sends_telemetry_event": false
+}

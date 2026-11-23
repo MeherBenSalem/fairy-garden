@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "fairygarden:moon_petal",
+    "N": "minecraft:iron_nugget"
+  },
+  "pattern": [
+    "NNN",
+    "NCN",
+    "NNN"
+  ],
+  "result": {
+    "id": "fairygarden:moon_lantern"
+  },
+  "show_notification": true
+}

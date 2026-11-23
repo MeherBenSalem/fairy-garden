@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "fairygarden:block/blossom_planks",
+    "side": "fairygarden:block/blossom_planks",
+    "top": "fairygarden:block/blossom_planks"
+  }
+}

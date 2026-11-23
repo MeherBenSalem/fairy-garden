@@ -1,0 +1,70 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "flower_shrine": {
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "location": {
+              "structures": "fairygarden:flower_shrine"
+            }
+          }
+        }
+      },
+      "trigger": "minecraft:location"
+    },
+    "moonstone_circle": {
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "location": {
+              "structures": "fairygarden:moonstone_circle"
+            }
+          }
+        }
+      },
+      "trigger": "minecraft:location"
+    },
+    "mushroom_cottage": {
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "location": {
+              "structures": "fairygarden:mushroom_cottage"
+            }
+          }
+        }
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.treasure.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:moon_lantern"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.treasure.title"
+    }
+  },
+  "requirements": [
+    [
+      "flower_shrine",
+      "moonstone_circle",
+      "mushroom_cottage"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

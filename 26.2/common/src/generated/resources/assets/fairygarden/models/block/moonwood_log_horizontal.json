@@ -1,0 +1,9 @@
+{
+  "parent": "fairygarden:block/glowing_cube_column_horizontal",
+  "textures": {
+    "end": "fairygarden:block/moonwood_log_top",
+    "overlay": "fairygarden:block/moonwood_log_glow",
+    "overlay_end": "fairygarden:block/moonwood_log_top_glow",
+    "side": "fairygarden:block/moonwood_log"
+  }
+}

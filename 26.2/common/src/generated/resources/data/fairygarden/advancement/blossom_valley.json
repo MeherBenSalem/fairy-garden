@@ -1,0 +1,42 @@
+{
+  "parent": "fairygarden:root",
+  "criteria": {
+    "entered": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "fairygarden:blossom_valley"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fairygarden.blossom_valley.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:blossom_sapling"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.fairygarden.blossom_valley.title"
+    }
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blue_hydrangea": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fairygarden:blue_hydrangea"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fairygarden:light_blue_dye_from_blue_hydrangea"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_blue_hydrangea",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fairygarden:light_blue_dye_from_blue_hydrangea"
+    ]
+  },
+  "sends_telemetry_event": false
+}

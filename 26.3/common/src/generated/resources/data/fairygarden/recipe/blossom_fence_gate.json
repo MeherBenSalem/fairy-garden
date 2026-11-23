@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "minecraft:stick",
+    "W": "fairygarden:blossom_planks"
+  },
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
+  "result": {
+    "id": "fairygarden:blossom_fence_gate"
+  },
+  "show_notification": true
+}

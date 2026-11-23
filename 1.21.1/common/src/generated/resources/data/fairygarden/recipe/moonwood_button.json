@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "fairygarden:moonwood_planks"
+    }
+  ],
+  "result": {
+    "id": "fairygarden:moonwood_button"
+  }
+}

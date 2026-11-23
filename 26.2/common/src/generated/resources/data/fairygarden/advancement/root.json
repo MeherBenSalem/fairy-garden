@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "has_fairy_flower": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#fairygarden:fairy_flowers"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "fairygarden:block/blossom_planks",
+    "description": {
+      "translate": "advancements.fairygarden.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "fairygarden:crystal_flower"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.fairygarden.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_fairy_flower"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

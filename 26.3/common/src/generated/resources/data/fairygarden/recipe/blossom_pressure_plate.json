@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "fairygarden:blossom_planks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "fairygarden:blossom_pressure_plate"
+  },
+  "show_notification": true
+}

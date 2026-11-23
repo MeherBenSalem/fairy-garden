@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "fairygarden:block/moonwood_planks",
+    "side": "fairygarden:block/moonwood_planks",
+    "top": "fairygarden:block/moonwood_planks"
+  }
+}

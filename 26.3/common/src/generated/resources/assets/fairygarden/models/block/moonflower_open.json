@@ -1,0 +1,6 @@
+{
+  "parent": "fairygarden:block/emissive_cross",
+  "textures": {
+    "cross": "fairygarden:block/moonflower_open"
+  }
+}

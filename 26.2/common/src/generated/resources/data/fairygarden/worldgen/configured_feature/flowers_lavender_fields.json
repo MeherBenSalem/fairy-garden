@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fairygarden:lavender"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "fairygarden:starflower"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "fairygarden:cream_buttercup"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "fairygarden:bluebell"
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

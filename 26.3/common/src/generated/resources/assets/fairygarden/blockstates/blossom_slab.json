@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "fairygarden:block/blossom_slab"
+    },
+    "type=double": {
+      "model": "fairygarden:block/blossom_planks"
+    },
+    "type=top": {
+      "model": "fairygarden:block/blossom_slab_top"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:huge_brown_mushroom",
+  "cap_provider": {
+    "id": "fairygarden:glowcap_block",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "true",
+      "west": "true"
+    }
+  },
+  "foliage_radius": 3,
+  "stem_provider": {
+    "id": "minecraft:mushroom_stem",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "false",
+      "west": "true"
+    }
+  }
+}

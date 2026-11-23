@@ -1,0 +1,17 @@
+{
+  "feature": "fairygarden:small_blossom_tree",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "id": "fairygarden:blossom_sapling",
+          "properties": {
+            "stage": "0"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "fairygarden:block/blossom_log",
+    "side": "fairygarden:block/blossom_log"
+  }
+}

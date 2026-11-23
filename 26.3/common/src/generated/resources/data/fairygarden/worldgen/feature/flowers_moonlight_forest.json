@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:simple_block",
+  "to_place": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "data": {
+          "id": "fairygarden:moonflower",
+          "properties": {
+            "open": "false"
+          }
+        },
+        "weight": 4
+      },
+      {
+        "data": {
+          "id": "fairygarden:bluebell"
+        },
+        "weight": 3
+      },
+      {
+        "data": {
+          "id": "fairygarden:starflower"
+        },
+        "weight": 1
+      }
+    ]
+  }
+}

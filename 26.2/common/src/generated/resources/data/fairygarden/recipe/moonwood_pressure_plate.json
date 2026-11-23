@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "fairygarden:moonwood_planks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "fairygarden:moonwood_pressure_plate"
+  },
+  "show_notification": true
+}
