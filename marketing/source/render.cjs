@@ -12,7 +12,10 @@ const { chromium } = require('playwright');
 // (plus one row in the compatibility tables of curseforge/description.md and modrinth/description.md).
 const RELEASE = { version: '1.0' };
 const VERSIONS = [
-  { minecraft: '1.20.1', loaders: ['Forge'] },
+  { minecraft: '1.20.1', loaders: ['Fabric', 'Forge'] },
+  { minecraft: '1.21.1', loaders: ['Fabric', 'NeoForge'] },
+  { minecraft: '26.2', loaders: ['Fabric', 'NeoForge'] },
+  { minecraft: '26.3', loaders: ['Fabric', 'NeoForge'] },
 ];
 const LOADERS = ['Fabric', 'Forge', 'NeoForge'].filter((loader) => VERSIONS.some((v) => v.loaders.includes(loader)));
 

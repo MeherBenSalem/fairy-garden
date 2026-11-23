@@ -1,6 +1,6 @@
 package com.sugarplumstudios.fairygarden.block;
 
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.Blocks;
 import com.sugarplumstudios.fairygarden.registry.ModItems;
 import com.sugarplumstudios.fairygarden.registry.ModParticles;
@@ -96,7 +96,7 @@ public class StarbloomCropBlock extends CropBlock {
                 float bonus = 0.0F;
                 BlockState soil = level.getBlockState(below.offset(dx, 0, dz));
                 if (soil.is(Blocks.FARMLAND)) {
-                    bonus = soil.getValue(FarmBlock.MOISTURE) > 0 ? 3.0F : 1.0F;
+                    bonus = soil.getValue(FarmlandBlock.MOISTURE) > 0 ? 3.0F : 1.0F;
                 }
                 if (dx != 0 || dz != 0) {
                     bonus /= 4.0F;

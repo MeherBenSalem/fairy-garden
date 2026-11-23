@@ -5,7 +5,7 @@ import com.sugarplumstudios.fairygarden.config.FairyConfig;
 import com.sugarplumstudios.fairygarden.registry.ModParticles;
 import com.sugarplumstudios.fairygarden.worldgen.ModBiomes;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
+import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;

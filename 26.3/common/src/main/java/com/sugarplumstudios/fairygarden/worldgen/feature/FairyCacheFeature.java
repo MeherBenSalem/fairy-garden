@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 
 /**
  * A rare fairy treasure cache: a chest buried two blocks under a crystal flower, which stands in the middle of a
@@ -40,8 +41,8 @@ public class FairyCacheFeature implements Feature {
         level.setBlock(chestPos, Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, facing), Block.UPDATE_CLIENTS);
         RandomizableContainer.setBlockEntityLootTable(level, random, chestPos, ModLootTables.FAIRY_CACHE);
 
-        BlockStateProvider ring = (BlockStateProvider.simple(
-                random.nextInt(3) == 0 ? ModBlocks.GLOWCAP.get() : ModBlocks.FAIRY_MUSHROOM.get()));
+        BlockStateProvider ring = new SimpleStateProvider(
+                (random.nextInt(3) == 0 ? ModBlocks.GLOWCAP.get() : ModBlocks.FAIRY_MUSHROOM.get()).defaultBlockState());
         FairyRingFeature.placeRing(level, origin, random, ring, 2, false);
         level.setBlock(origin, ModBlocks.CRYSTAL_FLOWER.get().defaultBlockState(), Block.UPDATE_CLIENTS);
         return true;

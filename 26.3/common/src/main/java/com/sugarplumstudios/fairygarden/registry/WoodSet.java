@@ -15,7 +15,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.DoorBlock;
@@ -61,7 +61,7 @@ public final class WoodSet {
     public final RegistryEntry<CeilingHangingSignBlock> hangingSign;
     public final RegistryEntry<WallHangingSignBlock> wallHangingSign;
 
-    public final RegistryEntry<SignItem> signItem;
+    public final RegistryEntry<StandingAndWallBlockItem> signItem;
     public final RegistryEntry<HangingSignItem> hangingSignItem;
     public final RegistryEntry<BoatItem> boat;
     public final RegistryEntry<BoatItem> chestBoat;
@@ -108,9 +108,10 @@ public final class WoodSet {
                         .overrideDescription(hangingSign.get().getDescriptionId())));
 
         signItem = ModItems.registerBlockItem(name + "_sign",
-                () -> new SignItem(sign.get(), wallSign.get(), Keys.itemProps().useBlockDescriptionPrefix().stacksTo(16)));
+                () -> new StandingAndWallBlockItem(sign.get(), wallSign.get(), Direction.DOWN,
+                        Keys.itemProps().useBlockDescriptionPrefix().stacksTo(16).signText()));
         hangingSignItem = ModItems.registerBlockItem(name + "_hanging_sign",
-                () -> new HangingSignItem(hangingSign.get(), wallHangingSign.get(), Keys.itemProps().useBlockDescriptionPrefix().stacksTo(16)));
+                () -> new HangingSignItem(hangingSign.get(), wallHangingSign.get(), Keys.itemProps().useBlockDescriptionPrefix().stacksTo(16).signText()));
 
         // Entity types are registered before items on both loaders; the entity reads its item when it is broken.
         boatEntity = Services.PLATFORM.register(Registries.ENTITY_TYPE, name + "_boat", () -> EntityType.Builder.<Boat>of(

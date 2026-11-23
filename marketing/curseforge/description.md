@@ -164,6 +164,13 @@ Structure spacing, loot and the biome lists of each structure are ordinary data,
 | Minecraft | Loader | Java | Also install |
 | --- | --- | --- | --- |
 | 1.20.1 | Forge 47 or newer | 17+ | [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for Forge 1.20.1 |
+| 1.20.1 | Fabric Loader 0.16.9 or newer | 17+ | [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for Fabric 1.20.1 |
+| 1.21.1 | NeoForge 21.1.80 or newer | 21+ | [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for NeoForge 1.21.1 |
+| 1.21.1 | Fabric Loader 0.16.9 or newer | 21+ | [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for Fabric 1.21.1 |
+| 26.2 | NeoForge 26.2.0.93 or newer | 25+ | [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for NeoForge 26.2 |
+| 26.2 | Fabric Loader 0.20.1 or newer | 25+ | [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for Fabric 26.2 |
+| 26.3 | NeoForge 26.3.0.97 or newer | 25+ | [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for NeoForge 26.3 |
+| 26.3 | Fabric Loader 0.20.1 or newer | 25+ | [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [TerraBlender](https://www.curseforge.com/minecraft/mc-mods/terrablender) for Fabric 26.3 |
 
 - Install Fairy Garden and TerraBlender on **both the server and every client**.
 - Fairy Garden is a mod. It does not work as a Paper, Spigot or Folia plugin.
@@ -188,8 +195,8 @@ It only grows at night, under the open sky. Nothing may cover it, and it needs f
 **How do I find a structure?**
 Use `/locate structure fairygarden:flower_shrine` (or `hidden_fairy_garden`, `moonstone_circle`, `mushroom_cottage`). In survival, explore the biomes each one appears in.
 
-**Is there a Fabric or NeoForge version?**
-Not yet. Fairy Garden runs on Forge for Minecraft 1.20.1.
+**Which loaders and versions are supported?**
+Forge and Fabric for Minecraft 1.20.1, and NeoForge and Fabric for Minecraft 1.21.1, 26.2 and 26.3. Pick the file for your loader and Minecraft version; the Fabric files also need Fabric API.
 
 ![Gallery](https://raw.githubusercontent.com/MeherBenSalem/fairy-garden/main/marketing/images/header-gallery.png)
 

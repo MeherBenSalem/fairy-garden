@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 public record FairyRingFeature(BlockStateProvider toPlace) implements Feature {
     // 26.3: a feature is its own configured instance; "to_place" is the old simple_block configuration's field.
     public static final MapCodec<FairyRingFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BlockStateProvider.CODEC.fieldOf("to_place").forGetter(FairyRingFeature::toPlace)
+            BlockStateProvider.DIRECT_CODEC.fieldOf("to_place").forGetter(FairyRingFeature::toPlace)
     ).apply(instance, FairyRingFeature::new));
 
     @Override

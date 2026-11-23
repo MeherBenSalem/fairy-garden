@@ -18,21 +18,22 @@ Both descriptions lead with the pitch, then the five biomes, day and night, magi
 
 ### Dependencies
 
-Fairy Garden **requires TerraBlender** (Forge, 1.20.1). On CurseForge, add it under **Relations** as a required dependency; on Modrinth, add it as a required dependency of each version. Both descriptions say so in the compatibility table, and the banner has a "Requires TerraBlender" pill.
+Fairy Garden **requires TerraBlender** on every loader and version, and the Fabric files also require Fabric API. The Publish workflow declares both as required dependencies of each uploaded file on CurseForge and Modrinth. Both descriptions say so in the compatibility table, and the banner has a "Requires TerraBlender" pill.
 
 ### Modrinth project settings
 
 - **Environment:** required on the client and on the server.
-- **Loader and version:** Forge, Minecraft 1.20.1.
+- **Loaders and versions:** Forge and Fabric for 1.20.1; NeoForge and Fabric for 1.21.1, 26.2 and 26.3 (one file per pair, set by the Publish workflow).
 - **Gallery:** upload `images/screenshots/*.jpg` with the captions used in the CurseForge gallery (the alt texts at the end of `curseforge/description.md`), and `images/banner.png` as the featured image.
 
 ## Adding a Minecraft version
 
 The supported versions are listed in these places:
 
-1. `VERSIONS` at the top of [`source/render.cjs`](source/render.cjs). Add one line, for example `{ minecraft: '1.21.1', loaders: ['NeoForge'] },`. The banner's loader pills and version line are built from it. Then rerun the script for `banner`.
-2. The table under **Downloads & Compatibility** in `curseforge/description.md` and `modrinth/description.md`. Add one row per loader, with the matching TerraBlender.
-3. The FAQ answer **Is there a Fabric or NeoForge version?** in both files.
+1. `VERSIONS` at the top of [`source/render.cjs`](source/render.cjs). Add one line, for example `{ minecraft: '26.4', loaders: ['Fabric', 'NeoForge'] },`. The banner's loader pills and version line are built from it. Then rerun the script for `banner`.
+2. The table under **Downloads & Compatibility** in `curseforge/description.md`. Add one row per loader, with the matching TerraBlender.
+3. The FAQ answer **Which loaders and versions are supported?** in the same file.
+4. Then run `python3 tools/make_modrinth_md.py .` to rewrite `modrinth/description.md` and `modrinth/summary.txt` from the CurseForge copy.
 
 No other copy or artwork names a Minecraft version. A new release number goes in `RELEASE` in `render.cjs` and in the banner's alt text on the first line of both descriptions.
 

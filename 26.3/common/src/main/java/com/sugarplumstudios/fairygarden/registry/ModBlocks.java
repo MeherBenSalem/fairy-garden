@@ -252,7 +252,7 @@ public final class ModBlocks {
 
     private static RegistryEntry<FlowerBedBlock> petals(String name, MapColor color) {
         return register(name, () -> new FlowerBedBlock(Keys.blockProps().mapColor(color).noCollision()
-                .sound(SoundType.PINK_PETALS).pushReaction(PushReaction.POPPED)) { });
+                .sound(SoundType.PINK_PETALS).pushReaction(PushReaction.POPPED), 3) { });
     }
 
     private static RegistryEntry<CarpetBlock> flowerCarpet(String name, MapColor color) {
@@ -291,7 +291,7 @@ public final class ModBlocks {
     private static BlockBehaviour.Properties leaves(MapColor color, SoundType sound) {
         return Keys.blockProps().mapColor(color).strength(0.2F).randomTicks().sound(sound).noOcclusion()
                 .isValidSpawn((state, level, pos, type) -> false)
-                .isSuffocating((state, level, pos) -> false).isViewBlocking((state, level, pos) -> false)
+                .isSuffocating((state, level, pos) -> false).isViewBlocking((state, level, pos, box) -> false)
                 .ignitedByLava().pushReaction(PushReaction.POPPED).isRedstoneConductor((state, level, pos) -> false);
     }
 
