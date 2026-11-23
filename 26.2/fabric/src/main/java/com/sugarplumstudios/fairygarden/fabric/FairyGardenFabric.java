@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -36,10 +36,10 @@ public final class FairyGardenFabric implements ModInitializer {
         CommonSetup.registerCompostables();
         for (WoodSet set : ModBlocks.WOOD_SETS) {
             // The signs are vanilla sign blocks; the vanilla sign block entity types must accept them.
-            BlockEntityType.SIGN.addSupportedBlock(set.sign.get());
-            BlockEntityType.SIGN.addSupportedBlock(set.wallSign.get());
-            BlockEntityType.HANGING_SIGN.addSupportedBlock(set.hangingSign.get());
-            BlockEntityType.HANGING_SIGN.addSupportedBlock(set.wallHangingSign.get());
+            BlockEntityTypes.SIGN.addSupportedBlock(set.sign.get());
+            BlockEntityTypes.SIGN.addSupportedBlock(set.wallSign.get());
+            BlockEntityTypes.HANGING_SIGN.addSupportedBlock(set.hangingSign.get());
+            BlockEntityTypes.HANGING_SIGN.addSupportedBlock(set.wallHangingSign.get());
             for (Block block : new Block[]{set.log.get(), set.wood.get()}) {
                 Block stripped = ((StrippableLogBlock) block).stripped();
                 if (stripped != null) {

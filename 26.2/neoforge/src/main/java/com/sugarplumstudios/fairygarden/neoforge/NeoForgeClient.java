@@ -12,13 +12,10 @@ import com.sugarplumstudios.fairygarden.client.render.MoonWispRenderer;
 import com.sugarplumstudios.fairygarden.registry.ModBlocks;
 import com.sugarplumstudios.fairygarden.registry.ModEntities;
 import com.sugarplumstudios.fairygarden.registry.ModParticles;
-import com.sugarplumstudios.fairygarden.registry.ModWoodTypes;
 import com.sugarplumstudios.fairygarden.registry.WoodSet;
 import net.minecraft.client.model.object.boat.BoatModel;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -33,18 +30,10 @@ public final class NeoForgeClient {
     }
 
     public static void init(IEventBus modBus) {
-        modBus.addListener(NeoForgeClient::onClientSetup);
         modBus.addListener(NeoForgeClient::onRegisterRenderers);
         modBus.addListener(NeoForgeClient::onRegisterLayers);
         modBus.addListener(NeoForgeClient::onRegisterParticles);
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> AmbientEffects.tick());
-    }
-
-    private static void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            Sheets.addWoodType(ModWoodTypes.BLOSSOM);
-            Sheets.addWoodType(ModWoodTypes.MOONWOOD);
-        });
     }
 
     private static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -20,6 +20,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
@@ -83,8 +84,8 @@ public final class FairyGardenNeoForge {
     /** The signs are vanilla sign blocks; the vanilla sign block entity types must accept them. */
     private static void onBlockEntityTypes(BlockEntityTypeAddBlocksEvent event) {
         for (WoodSet set : ModBlocks.WOOD_SETS) {
-            event.modify(BlockEntityType.SIGN, set.sign.get(), set.wallSign.get());
-            event.modify(BlockEntityType.HANGING_SIGN, set.hangingSign.get(), set.wallHangingSign.get());
+            event.modify(BlockEntityTypes.SIGN, set.sign.get(), set.wallSign.get());
+            event.modify(BlockEntityTypes.HANGING_SIGN, set.hangingSign.get(), set.wallHangingSign.get());
         }
     }
 
