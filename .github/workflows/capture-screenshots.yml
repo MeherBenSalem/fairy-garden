@@ -33,22 +33,32 @@ jobs:
       - name: Guided showcase tour (every biome by day, night where it matters, every structure)
         timeout-minutes: 40
         run: |
-          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +extension RENDER" sh -c './gradlew createSrgToMcp runClient -Pshowcase > showcase.out 2>&1 &
-            for i in $(seq 1 420); do
-              sleep 5
-              grep -q "\[showcase\] tour finished" run/logs/latest.log 2>/dev/null && break
-              [ -d run/crash-reports ] && break
-            done
-            sleep 5; pkill -f "net.minecraftforge.bootstrap|forgeclientuserdev|GradleStart|minecraft" || true; sleep 5; pkill -f java || true; true'
+          Xvfb :99 -screen 0 1920x1080x24 +extension GLX +extension RENDER > /dev/null 2>&1 &
+          XVFB=$!
+          export DISPLAY=:99
+          ./gradlew createSrgToMcp runClient -Pshowcase > showcase.out 2>&1 &
+          GRADLE=$!
+          for i in $(seq 1 420); do
+            sleep 5
+            grep -q "\[showcase\] tour finished" run/logs/latest.log 2>/dev/null && break
+            [ -d run/crash-reports ] && break
+            kill -0 $GRADLE 2>/dev/null || break
+          done
+          sleep 5
+          ./gradlew --stop > /dev/null 2>&1 || true
+          pkill -f forgeclientuserdev || true
+          sleep 5
+          kill $GRADLE $XVFB 2>/dev/null || true
+          tail -30 showcase.out || true
           grep -E "\[showcase\]" run/logs/latest.log | tail -40 || true
-          ls -la run/screenshots
+          ls -la run/screenshots || true
           mkdir -p captures && cp run/screenshots/showcase_*.png captures/ 2>/dev/null || true
           rm -rf run/screenshots run/logs
       - name: Snapshot run (block gallery by day and night, every item)
         timeout-minutes: 40
         run: |
           xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +extension RENDER" ./gradlew runSnapshots --stacktrace
-          ls -la run/screenshots
+          ls -la run/screenshots || true
           cp run/screenshots/fairygarden_*.png captures/
       - name: Commit the captures as JPEGs
         run: |
