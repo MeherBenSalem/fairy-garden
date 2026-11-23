@@ -17,4 +17,10 @@ public class ModHangingSignBlockEntity extends HangingSignBlockEntity {
     public BlockEntityType<?> getType() {
         return ModBlockEntities.HANGING_SIGN.get();
     }
+
+    // The constructor checks the state against vanilla's hanging sign type unless this says which type counts.
+    @Override
+    public boolean isValidBlockState(BlockState state) {
+        return getType().isValid(state);
+    }
 }

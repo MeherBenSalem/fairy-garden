@@ -95,7 +95,7 @@ result=timeout
 for _ in $(seq 1 300); do
   sleep 5
   if grep -q "FAIRY_SMOKE_OK" "$LOG"; then result=ok; break; fi
-  if grep -q -E "This crash report has been saved|Encountered an unexpected exception|Failed to start the minecraft server|Failed to load function $NS|Mixin apply.*failed|InvalidInjectionException" "$LOG"; then result=crash; break; fi
+  if grep -q -E "This crash report has been saved|Encountered an unexpected exception|Failed to start the minecraft server|Failed to load function $NS|Failed to execute function $NS|Feature order cycle found|Mixin apply.*failed|InvalidInjectionException" "$LOG"; then result=crash; break; fi
   if ! kill -0 $PID 2>/dev/null; then result=exited; break; fi
 done
 sleep 10

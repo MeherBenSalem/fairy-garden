@@ -411,6 +411,13 @@ def biome_26(body: dict) -> dict:
     if isinstance(carvers, dict):
         out["carvers"] = [c for step in carvers.values() for c in (step if isinstance(step, list) else [step])]
     out["effects"] = {k: hex_colour(v) if k.endswith("_color") else v for k, v in effects.items()}
+    # Every biome must list shared features in one order. Vanilla 26.x places pumpkin patches before sugar cane
+    # (1.20.1 and 1.21.1 the other way round), so follow it or the game finds a feature order cycle.
+    for step in out.get("features", []):
+        if "minecraft:patch_sugar_cane" in step and "minecraft:patch_pumpkin" in step:
+            cane, pumpkin = step.index("minecraft:patch_sugar_cane"), step.index("minecraft:patch_pumpkin")
+            if cane < pumpkin:
+                step[cane], step[pumpkin] = step[pumpkin], step[cane]
     return out
 
 
