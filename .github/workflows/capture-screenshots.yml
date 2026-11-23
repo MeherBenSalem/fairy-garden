@@ -1,0 +1,62 @@
+# Temporary: takes the marketing screenshots in a dev client and commits them to this branch. Removed again before review.
+name: Capture marketing screenshots
+
+on:
+  push:
+    branches: ["marketing-assets"]
+    paths: [".github/workflows/capture-screenshots.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install Xvfb, Mesa and ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-utils imagemagick
+      - name: Open the client window at 1920x1080 (runner only, not committed)
+        run: |
+          chmod +x gradlew
+          sed -i "s|property 'fairygarden.devshots', 'true'|property 'fairygarden.devshots', 'true'\n            args '--width', '1920', '--height', '1080'|" build.gradle
+          sed -i "s|property 'fairygarden.showcase', 'true'|property 'fairygarden.showcase', 'true'\n                args '--width', '1920', '--height', '1080'|" build.gradle
+          grep -n "1920" build.gradle
+          mkdir -p run
+          printf 'renderDistance:12\nsimulationDistance:8\ngraphicsMode:1\nguiScale:3\nparticles:0\nonboardAccessibility:false\ntutorialStep:none\nskipMultiplayerWarning:true\njoinedFirstServer:true\n' > run/options.txt
+      - name: Guided showcase tour (every biome by day, night where it matters, every structure)
+        timeout-minutes: 40
+        run: |
+          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +extension RENDER" sh -c './gradlew createSrgToMcp runClient -Pshowcase > showcase.out 2>&1 &
+            for i in $(seq 1 420); do
+              sleep 5
+              grep -q "\[showcase\] tour finished" run/logs/latest.log 2>/dev/null && break
+              [ -d run/crash-reports ] && break
+            done
+            sleep 5; pkill -f "net.minecraftforge.bootstrap|forgeclientuserdev|GradleStart|minecraft" || true; sleep 5; pkill -f java || true; true'
+          grep -E "\[showcase\]" run/logs/latest.log | tail -40 || true
+          ls -la run/screenshots
+          mkdir -p captures && cp run/screenshots/showcase_*.png captures/ 2>/dev/null || true
+          rm -rf run/screenshots run/logs
+      - name: Snapshot run (block gallery by day and night, every item)
+        timeout-minutes: 40
+        run: |
+          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +extension RENDER" ./gradlew runSnapshots --stacktrace
+          ls -la run/screenshots
+          cp run/screenshots/fairygarden_*.png captures/
+      - name: Commit the captures as JPEGs
+        run: |
+          mkdir -p marketing/source/captures
+          for f in captures/*.png; do convert "$f" -quality 90 "marketing/source/captures/$(basename "${f%.png}").jpg"; done
+          ls -la marketing/source/captures
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add marketing/source/captures
+          git commit -m "Marketing screenshot captures from a dev client at 1920x1080"
+          git push
