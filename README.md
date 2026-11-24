@@ -267,12 +267,12 @@ are left out of the jar.
 CI (`.github/workflows/ci.yml`) builds all 8 jars on every push to `main`, runs the GameTests and the world
 generation self test, boots a Forge server with the built jar, starts a dev server for every target that places
 every block and locates every biome and structure, and launches a 1.20.1 Forge client that screenshots every biome
-and structure. Publishing to Modrinth and CurseForge is `.github/workflows/publish.yml`, run by hand (`version`,
+and structure. Publishing (to CurseForge only) is `.github/workflows/publish.yml`, run by hand (`version`,
 `dry_run`) or by a `v*.*.*` tag; it never runs on a plain push. It refuses a second release of the mod on the same
 day (Africa/Tunis), takes the jars from `releases/`, the GitHub Release or a build from source, and fails unless
-exactly the 8 jars are found. It needs the secrets `MODRINTH_TOKEN`, `CURSEFORGE_TOKEN`, `CURSEFORGE_API_KEY` and
-the variables `MODRINTH_ID`, `CURSEFORGE_ID`; until both variables are set it stops before building, dry runs
-included. `release/1.0.0/` keeps the notes of the original Forge-only 1.0.0 build.
+exactly the 8 jars are found. It needs the secrets `CURSEFORGE_TOKEN` (upload) and `CURSEFORGE_API_KEY` (Core API,
+for the same-day guard) and the variable `CURSEFORGE_ID`; until the variable is set a real release stops before
+building (a dry run only warns). `release/1.0.0/` keeps the notes of the original Forge-only 1.0.0 build.
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 # Marketing assets: 1.0
 
-Listing copy and artwork for CurseForge and Modrinth. Nothing here ships in the mod JAR.
+Listing copy and artwork for CurseForge (NightBeam publishes to CurseForge only). Nothing here ships in the mod JAR.
 
 ## Listing
 
@@ -8,23 +8,15 @@ Listing copy and artwork for CurseForge and Modrinth. Nothing here ships in the 
 | --- | --- |
 | [`curseforge/description.md`](curseforge/description.md) | Full CurseForge project description (Markdown) |
 | [`curseforge/summary.txt`](curseforge/summary.txt) | Short CurseForge project summary (220 characters) |
-| [`modrinth/description.md`](modrinth/description.md) | Full Modrinth project body. The same copy as CurseForge, but the screenshots go in the project's Gallery tab instead of the page |
-| [`modrinth/summary.txt`](modrinth/summary.txt) | Modrinth summary (220 characters; Modrinth allows 256) |
-| `images/icon.png` | Project avatar on both sites |
+| `images/icon.png` | Project avatar |
 
-Image links in both descriptions point at `raw.githubusercontent.com/MeherBenSalem/fairy-garden/main/marketing/images/...`. **They only work for visitors once this folder is on `main` and the repository is public.** While the repository is private, upload the images to each site instead (the CurseForge description editor and the Modrinth gallery both take uploads) and replace each URL.
+Image links in the description point at `raw.githubusercontent.com/MeherBenSalem/fairy-garden/main/marketing/images/...`. **They only work for visitors once this folder is on `main` and the repository is public.** While the repository is private, upload the images to CurseForge instead (the description editor takes uploads) and replace each URL.
 
-Both descriptions lead with the pitch, then the five biomes, day and night, magical plants, flowers, the two wood sets, exploration, creatures and ambience, crafting, configuration, everything else, downloads and compatibility, the FAQ and (CurseForge only) a gallery.
+The description leads with the pitch, then the five biomes, day and night, magical plants, flowers, the two wood sets, exploration, creatures and ambience, crafting, configuration, everything else, downloads and compatibility, the FAQ and a gallery.
 
 ### Dependencies
 
-Fairy Garden **requires TerraBlender** on every loader and version, and the Fabric files also require Fabric API. The Publish workflow declares both as required dependencies of each uploaded file on CurseForge and Modrinth. Both descriptions say so in the compatibility table, and the banner has a "Requires TerraBlender" pill.
-
-### Modrinth project settings
-
-- **Environment:** required on the client and on the server.
-- **Loaders and versions:** Forge and Fabric for 1.20.1; NeoForge and Fabric for 1.21.1, 26.2 and 26.3 (one file per pair, set by the Publish workflow).
-- **Gallery:** upload `images/screenshots/*.jpg` with the captions used in the CurseForge gallery (the alt texts at the end of `curseforge/description.md`), and `images/banner.png` as the featured image.
+Fairy Garden **requires TerraBlender** on every loader and version, and the Fabric files also require Fabric API. The Publish workflow declares both as required dependencies of each uploaded file on CurseForge. The description says so in the compatibility table, and the banner has a "Requires TerraBlender" pill.
 
 ## Adding a Minecraft version
 
@@ -33,9 +25,8 @@ The supported versions are listed in these places:
 1. `VERSIONS` at the top of [`source/render.cjs`](source/render.cjs). Add one line, for example `{ minecraft: '26.4', loaders: ['Fabric', 'NeoForge'] },`. The banner's loader pills and version line are built from it. Then rerun the script for `banner`.
 2. The table under **Downloads & Compatibility** in `curseforge/description.md`. Add one row per loader, with the matching TerraBlender.
 3. The FAQ answer **Which loaders and versions are supported?** in the same file.
-4. Then run `python3 tools/make_modrinth_md.py .` to rewrite `modrinth/description.md` and `modrinth/summary.txt` from the CurseForge copy.
 
-No other copy or artwork names a Minecraft version. A new release number goes in `RELEASE` in `render.cjs` and in the banner's alt text on the first line of both descriptions.
+No other copy or artwork names a Minecraft version. A new release number goes in `RELEASE` in `render.cjs` and in the banner's alt text on the first line of the description.
 
 ## Images
 
@@ -52,9 +43,9 @@ No other copy or artwork names a Minecraft version. A new release number goes in
 | `images/card-creatures.png` | 1600×900, 1153 KB | The Fairy Glade at night and the six butterfly colourways |
 | `images/card-crafting.png` | 1600×900, 663 KB | Eight crafted items with their ingredients |
 | `images/card-config.png` | 1600×900, 569 KB | Excerpts of `fairygarden-common.toml` and `fairygarden-client.toml` |
-| `images/header-*.png` | 1400×120, transparent, 32–56 KB | 13 section headings for the descriptions |
+| `images/header-*.png` | 1400×120, transparent, 32–56 KB | 13 section headings for the description |
 | `images/divider.png` | 1400×40, transparent | Section divider |
-| `images/screenshots/*.jpg` | 1600×900, 168–508 KB | 14 captures: gallery uploads and card art |
+| `images/screenshots/*.jpg` | 1600×900, 168–508 KB | 14 captures: gallery images and card art |
 
 ### Where the pictures come from
 
